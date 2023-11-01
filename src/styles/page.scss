@@ -1,0 +1,72 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+html,
+body {
+  // 修正 uni-app 样式使外层 margin 失效
+  // @see {@link @dcloudio\uni-h5\dist\index.css#body,html}
+  width: auto;
+  height: auto;
+
+  //
+  font-size: 14px;
+  background-color: #F5F5F5;
+}
+.uni-col {
+  margin-bottom: 12px;
+}
+.pa-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pa-ellipsis--l2 {
+  -webkit-line-clamp: 2;
+}
+.pa-ellipsis--l3 {
+  -webkit-line-clamp: 3;
+}
+.pa-ellipsis--l2,
+.pa-ellipsis--l3 {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+}
+.pa-divider {
+  display: flex;
+  align-items: center;
+  margin: 16px 0;
+  font-size: 14px;
+  line-height: 24px;
+  color: #969799;
+  border: 0 solid #EBEDF0;
+}
+.pa-divider::before {
+  display: block;
+  flex: 1;
+  height: 1px;
+  content: "";
+  border-color: inherit;
+  border-style: inherit;
+  border-width: 1px 0 0;
+}
+
+.page-con{
+    padding: 30rpx 60rpx 40rpx 60rpx;
+}
+
+/*  #ifdef  MP-WEIXIN  */
+page,
+view,
+text,
+swiper,
+swiper-item,
+image,
+navigator {
+  box-sizing: border-box;
+}
+
+/*  #endif  */

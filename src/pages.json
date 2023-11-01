@@ -1,0 +1,77 @@
+{
+    "easycom": {
+        "autoscan": true,
+        "custom": {
+            "^uni-((?!(shadow-root)).*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue",
+            "^pa-(.*)": "@/components/Global/pa-$1.vue"
+        }
+    },
+	"pages": [
+        {
+            "path": "pages/index/index",
+            "style": {
+                "backgroundColor": "#F5F5F5"
+            }
+        }
+	],
+    "subPackages": [
+        {
+            "root": "pages/common",
+            "pages":[
+                {
+                    "path": "webView"
+                },
+                {
+                    "path": "board"
+                },
+                {
+                    "path": "404"
+                },
+                {
+                    "path": "search",
+                    "style": {
+                        "backgroundColor": "#FFFFFF"
+                    }
+                },
+                {
+                    "path": "videoPreview",
+                    "style": {
+                        "navigationBarTextStyle": "white"
+                    }
+                }
+            ]
+        },
+        {
+            "root": "pages/home",
+            "pages":[
+                {
+                    "path": "index",
+                    "style": {
+                        "backgroundColor": "#F5F5F5",
+                        "enablePullDownRefresh": true
+                    }
+                }
+            ]
+        }
+    ],
+	"globalStyle": {
+        "navigationStyle":"custom",
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "喵喵喵",
+		"navigationBarBackgroundColor": "#F5F5F5",
+		"backgroundColor": "#F5F5F5",
+        "pageOrientation": "portrait",
+        "app-plus": {
+            "pullToRefresh": {
+                "color": "#FF824C"
+            },
+            "scrollIndicator": "none"
+        }
+	},
+    "condition": {
+        "current": 0,
+        "list": [
+
+        ]
+    }
+}

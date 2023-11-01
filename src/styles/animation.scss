@@ -1,0 +1,51 @@
+.pa-animation-jump{
+    position: relative;
+    animation-name:jump;
+    animation-iteration-count: infinite;
+    animation-duration: .5s;
+    animation-direction: alternate;
+    animation-play-state: running;
+}
+
+.pa-animation-loop-rotation{
+    animation: rotate 6s linear infinite;
+}
+
+@keyframes jump {
+    0% {
+        top:0
+    }
+
+    100% {
+        top:6px
+    }
+}
+
+@keyframes rotate{
+    0%{
+        transform: rotate(0);
+    }
+    100%{
+        transform:rotate(360deg);
+    }
+}
+
+.slide-fade-enter-active {
+    transition: all 0.3s ease;
+    /* ease:cubic-bezier(0.25, 0.1, 0.25, 1.0) */
+    /* linear cubic-bezier(0.0, 0.0, 1.0, 1.0) */
+    /* ease-in cubic-bezier(0.42, 0, 1.0, 1.0) */
+    /* ease-out cubic-bezier(0, 0, 0.58, 1.0) */
+    /* ease-in-out cubic-bezier(0.42, 0, 0.58, 1.0) */
+
+}
+.slide-fade-leave-active {
+    transition: all .8s cubic-bezier(.16,.45,.97,.5);
+    /* cubic-bezier(1.0, 0.5, 0.8, 1.0); */
+    /* transition: all 1.3s ease-in; */
+}
+.slide-fade-enter, .slide-fade-leave-to
+    /* .slide-fade-leave-active for below version 2.1.8 */ {
+    transform: translateX(10px);
+    opacity: 0;
+}
