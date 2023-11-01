@@ -144,7 +144,7 @@ export default {
             }
         },
         setShare() {
-            const title = this.shareTitle || '盟宠星球纪'
+            const title = this.shareTitle || '快摇人来聊🐱🐱'
             const imageUrl = this.useOriginCover ? '' : (this.shareCover || 'https://qa-res.ipetapi.com/miniprogram/mall/static/share.png')
             const query = this.$Router.getCurrentRouteQuery()
             this.shareQueryBlackList.forEach(i => {

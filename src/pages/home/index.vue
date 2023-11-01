@@ -8,6 +8,16 @@
     >
         <view class="pa-home-page">
             <pa-status-bar />
+            <view class="pa-home-page-body">
+                <pa-water-fall :data="list">
+                    <template #default="{ item }">
+                        <goods-card
+                            :data="item"
+                            class="pa-home-recommend-main-item"
+                        />
+                    </template>
+                </pa-water-fall>
+            </view>
             <pa-logo
                 double-bottom-padding
             />
@@ -17,8 +27,6 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { viewModel, ruleModel } from '@/api'
-import { uniq } from 'lodash'
 
 export default {
     name: 'Index',

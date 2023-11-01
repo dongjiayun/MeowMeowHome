@@ -33,6 +33,7 @@
                                     :maxlength="item.maxlength || 999"
                                     :value="getFormValue(item.prop)"
                                     auto-height
+                                    :adjust-position="item.adjustPosition"
                                     :focus="currentFocus === item.prop"
                                     @input="handleInputChange($event,item.prop)"
                                     @focus="handleInputFocus(item.prop)"
@@ -63,6 +64,7 @@
                                     :show-right-arrow="item.showRightArrow"
                                     :text-align="item.textAlign"
                                     :placeholder="item.placeholder"
+                                    :adjust-position="item.adjustPosition"
                                     :value="getFormValue(`_${item.prop}`)"
                                     @clear="handleSelectClear(item)"
                                     @click.native="handleCustomSelect(item)"
@@ -75,6 +77,7 @@
                                     :show-right-arrow="item.showRightArrow"
                                     :text-align="item.textAlign"
                                     :placeholder="item.placeholder"
+                                    :adjust-position="item.adjustPosition"
                                     :value="getFormValue(`_${item.prop}`)"
                                     @clear="handleSelectClear(item)"
                                     @click.native="handleSelect(item)"
@@ -87,6 +90,7 @@
                                     :show-right-arrow="item.showRightArrow"
                                     :text-align="item.textAlign"
                                     :placeholder="item.placeholder"
+                                    :adjust-position="item.adjustPosition"
                                     :value="getFormValue(`_${item.prop}`)"
                                     @clear="handleSelectClear(item)"
                                     @click.native="handleChooser(item)"
@@ -98,6 +102,7 @@
                                     :placeholder="item.placeholder"
                                     :show-right-arrow="item.showRightArrow"
                                     :text-align="item.textAlign"
+                                    :adjust-position="item.adjustPosition"
                                     :value="getFormValue(`_${item.prop}`)"
                                     @clear="handleSelectClear(item)"
                                     @click.native="handleAreaSelect(item)"
@@ -109,6 +114,7 @@
                                     :placeholder="item.placeholder"
                                     :show-right-arrow="item.showRightArrow"
                                     :text-align="item.textAlign"
+                                    :adjust-position="item.adjustPosition"
                                     :value="getFormValue(`_${item.prop}`)"
                                     @clear="handleSelectClear(item)"
                                     @click.native="handleDateSelect(item)"
@@ -124,6 +130,7 @@
                                     :key="inx"
                                     class="pa-form-main-item-tags-item"
                                     :class="{ active: getFormValue(item.prop) === i.value }"
+                                    :style="{ backgroundColor: getFormValue(item.prop) === i.value ? (item.activeColor || '#FFAA2C') : '#D7D7D7' }"
                                     @click="handleTagClick(item, i)"
                                 >
                                     {{ i.label }}
@@ -179,6 +186,7 @@
                             <view v-if="item.type === 'smscode'" class="pa-form-main-item-smscode">
                                 <easyinput
                                     :placeholder="item.placeholder || '请输入6位验证码'"
+                                    :adjust-position="item.adjustPosition"
                                     :value="getFormValue(item.prop)"
                                     @input="handleInputChange($event,item.prop)"
                                     @clear="handleInputClear(item)"
@@ -194,6 +202,20 @@
                                     class="pa-form-main-item-smscode-button"
                                     @click="handleGetSmscode(item.prop)"
                                 >{{ smsIntervals[item.prop] === 'ended' ? '重新获取' : '获取验证码' }}</view>
+                            </view>
+                            <view v-if="item.type === 'uploadImages'" class="pa-form-main-item-upload-Images">
+                                <pa-upload-images
+                                    :number="item.number || 1"
+                                    :cols="item.cols || 4"
+                                    :list="getFormValue(item.prop)"
+                                    :title="item.title"
+                                    :type="item.mediaType"
+                                    :extension="item.extension || ['jpg','jpeg','heic','mp4','mpeg','mov','3gp','png']"
+                                    @change="handleUploadImages($event,item)"
+                                />
+                                <view v-if="item.info" class="pa-form-main-item-upload-Images-info">
+                                    {{ item.info }}
+                                </view>
                             </view>
                             <view
                                 v-if="item.type === 'text'"
@@ -340,6 +362,9 @@ export default {
                         this.$set(this.form, i.prop, obj[i.prop])
                     }
                     this.$set(this.smsIntervalNumbers, i.prop, 0)
+                } else if (['uploadImages'].includes(i.type)) {
+                    this.$set(this.form, i.prop, [])
+                    this.$set(this.form, `_${i.prop}`, '')
                 } else {
                     if (isNullOrEmpty(obj[i.prop])) {
                         this.$set(this.form, i.prop, '')
@@ -407,8 +432,9 @@ export default {
         handleDateSelect(item) {
             this.currentSelectItem = item
             const date = this.form[item.prop]
+            const hasDate = date && date.length > 0
             this.$nextTick(() => {
-                this.$refs.dateSelector.open(date || new Date())
+                this.$refs.dateSelector.open(hasDate ? date : dayjs().format('YYYY-MM-DD'))
             })
         },
         handlePopupPickerSubmit(value, label) {
@@ -545,6 +571,9 @@ export default {
         },
         validateField(propArr = []) {
             return this.$refs.form.validateField(propArr)
+        },
+        handleUploadImages(e, item) {
+            this.$set(this.form, item.prop, e)
         }
     }
 }
@@ -658,6 +687,14 @@ export default {
                 }
                 &-item+&-item{
                     margin-left: 16rpx;
+                }
+            }
+            &-upload-Images{
+                &-info{
+                    font-size: 26rpx;
+                    font-weight: 400;
+                    color: #B2B2B2;
+                    line-height: 36rpx;
                 }
             }
         }

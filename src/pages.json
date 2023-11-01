@@ -52,6 +52,18 @@
                     }
                 }
             ]
+        },
+        {
+            "root": "pages/mine",
+            "pages": [
+                {
+                    "path": "loginByPassword",
+                    "style": {
+                        "backgroundColor": "#F5F5F5",
+                        "enablePullDownRefresh": true
+                    }
+                }
+            ]
         }
     ],
 	"globalStyle": {
@@ -71,7 +83,10 @@
     "condition": {
         "current": 0,
         "list": [
-
+            {
+                "name": "登陆",
+                "path": "pages/mine/loginByPassword"
+            }
         ]
     }
 }

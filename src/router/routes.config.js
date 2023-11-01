@@ -44,6 +44,10 @@ const mine = [
         isTabbar: true,
         tabActiveIcon: require('static/tabbar/mine_active.png'),
         tabInactiveIcon: require('static/tabbar/mine.png')
+    },
+    {
+        path: 'pages/mine/loginByPassword',
+        name: 'loginByPassword'
     }
 ]
 

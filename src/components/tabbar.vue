@@ -30,7 +30,7 @@
             <view class="pa-tabbar-create-button">
                 <view class="pa-tabbar-create-button-leftear" />
                 <view class="pa-tabbar-create-button-rightear" />
-                <uni-icons type="plusempty" size="30" color="#fff" />
+                <uni-icons type="plusempty" size="30" color="#FF824C" />
             </view>
         </view>
         <view
@@ -169,9 +169,9 @@ export default {
         &-button{
             @mixin ear {
                 position: absolute;
-                top:-10rpx;
-                width: 20rpx;
-                height: 20rpx;
+                top:-18rpx;
+                width: 16rpx;
+                height: 16rpx;
                 border-radius: 6rpx;
                 background: $pingan-color;
                 transform: rotate(45deg);
@@ -183,14 +183,14 @@ export default {
             justify-content: center;
             align-items: center;
             border-radius: 32rpx;
-            background: $pingan-color;
+            border: 10rpx solid $pingan-color;
             &-leftear{
                 @include ear;
-                left: 26rpx;
+                left: 18rpx;
             }
             &-rightear{
                 @include ear;
-                right: 26rpx;
+                right: 18rpx;
             }
         }
     }
