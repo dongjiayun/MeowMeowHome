@@ -26,25 +26,12 @@
                 </view>
             </uni-badge>
         </view>
-        <view class="pa-tabbar-member" @click="handleGoToMember">
-            <image
-                v-if="!token"
-                mode="aspectFill"
-                class="pa-tabbar-member-image"
-                :src="memberMap.notLogin"
-            />
-            <image
-                v-else-if="!isMember"
-                mode="aspectFill"
-                class="pa-tabbar-member-image"
-                :src="memberMap.notLogin"
-            />
-            <image
-                v-else
-                mode="aspectFill"
-                class="pa-tabbar-member-image"
-                :src="memberMap[memberLevel]"
-            />
+        <view class="pa-tabbar-create" @click="handleCreate">
+            <view class="pa-tabbar-create-button">
+                <view class="pa-tabbar-create-button-leftear" />
+                <view class="pa-tabbar-create-button-rightear" />
+                <uni-icons type="plusempty" size="30" color="#fff" />
+            </view>
         </view>
         <view
             v-for="(item,index) in rightTabs"
@@ -80,19 +67,10 @@ export default {
         return {
             tabs: this.$storage.get('pa-tabbar') ?? [],
             isTopIndex: false,
-            memberMap: {
-                notLogin: 'https://qa-res.ipetapi.com/miniprogram/mall/tabbar_member_center.png',
-                0: 'https://qa-res.ipetapi.com/miniprogram/mall/tabbar_become_member.png',
-                1: 'https://qa-res.ipetapi.com/miniprogram/mall/tabbar_v1.png',
-                2: 'https://qa-res.ipetapi.com/miniprogram/mall/tabbar_v2.png',
-                3: 'https://qa-res.ipetapi.com/miniprogram/mall/tabbar_v3.png',
-                4: 'https://qa-res.ipetapi.com/miniprogram/mall/tabbar_v4.png',
-                5: 'https://qa-res.ipetapi.com/miniprogram/mall/tabbar_v5.png'
-            },
         }
     },
     computed: {
-        ...mapGetters(['token', 'memberLevel', 'isMember']),
+        ...mapGetters(['token']),
         hideShadow() {
             return this.$Router.checkCurrentRouteHideTabbarShadow()
         },
@@ -126,11 +104,6 @@ export default {
             uni.$on('setTarbarTopIndex', isTopIndex => {
                 this.isTopIndex = isTopIndex
             })
-            this.checkIsMember()
-        },
-        async checkIsMember() {
-            if (!this.token) return
-            return this.$store.dispatch('getMemberLevel')
         },
         setTabIcon({ tabActiveIcon, tabInactiveIcon, path }) {
             const isActive = this.$Router.checkCurrentRouteActive(path)
@@ -142,20 +115,17 @@ export default {
             }
         },
         getBind(bind) {
-            return this.$store.state.mall?.[bind]
+            return this.$store.state.business?.[bind]
         },
-        handleGoToMember() {
-            if (this.token && !this.isMember) {
-                this.$Router.push({ name: 'joinMember' })
-            } else {
-                this.$Router.push({ name: 'member' })
-            }
+        handleCreate() {
+            this.$Router.push({ name: 'create' })
         }
     }
 }
 </script>
 
 <style lang="scss" scoped>
+@import "@/styles";
 .pa-tabbar{
     z-index: 10;
     display: flex;
@@ -195,12 +165,33 @@ export default {
             }
         }
     }
-    &-member{
-        &-image{
+    &-create{
+        &-button{
+            @mixin ear {
+                position: absolute;
+                top:-10rpx;
+                width: 20rpx;
+                height: 20rpx;
+                border-radius: 6rpx;
+                background: $pingan-color;
+                transform: rotate(45deg);
+            }
             position: relative;
-            top:-40rpx;
             width: 120rpx;
-            height: 120rpx;
+            height: 80rpx;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 32rpx;
+            background: $pingan-color;
+            &-leftear{
+                @include ear;
+                left: 26rpx;
+            }
+            &-rightear{
+                @include ear;
+                right: 26rpx;
+            }
         }
     }
 }

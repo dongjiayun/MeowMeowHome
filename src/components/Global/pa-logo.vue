@@ -1,7 +1,7 @@
 <template>
     <view class="pa-logo" :class="{ doubleBottomPadding }">
         <view v-if="hideLogo" class="pa-logo-image" />
-        <image v-else class="pa-logo-image" :src="require('static/base/logo.png')" />
+        <view class="pa-logo-slogan">Meow 喵喵喵 Meow</view>
     </view>
 </template>
 
@@ -26,6 +26,11 @@ export default {
     &-image{
         width: 180rpx;
         height: 40rpx;
+    }
+    &-slogan{
+        font-size: 44rpx;
+        font-weight: bolder;
+        color:#ddd;
     }
 }
 </style>

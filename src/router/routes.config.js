@@ -13,6 +13,40 @@ const base = [
     }
 ]
 
+const mall = [
+    {
+        path: 'pages/mall/index',
+        name: 'mall',
+        tabbarName: '购物',
+        isTabbar: true,
+        tabActiveIcon: require('static/tabbar/cart_active.png'),
+        tabInactiveIcon: require('static/tabbar/cart.png')
+    }
+]
+
+const notice = [
+    {
+        path: 'pages/notice/index',
+        name: 'notice',
+        tabbarName: '消息',
+        isTabbar: true,
+        bind: 'noticeAmount',
+        tabActiveIcon: require('static/tabbar/category_active.png'),
+        tabInactiveIcon: require('static/tabbar/category.png')
+    }
+]
+
+const mine = [
+    {
+        path: 'pages/mine/index',
+        name: 'mine',
+        tabbarName: '我的',
+        isTabbar: true,
+        tabActiveIcon: require('static/tabbar/mine_active.png'),
+        tabInactiveIcon: require('static/tabbar/mine.png')
+    }
+]
+
 const common = [
     {
         path: 'pages/common/board',
@@ -38,6 +72,9 @@ const common = [
 
 const routes = [
     ...base,
+    ...mall,
+    ...notice,
+    ...mine,
     ...common,
 ]
 

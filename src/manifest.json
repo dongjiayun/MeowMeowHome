@@ -82,14 +82,7 @@
                 "desc" : "你的位置信息将用于地址定位使用"
             }
         },
-        "plugins" : {
-            "kdPlugin" : {
-                "version" : "1.1.2",
-                "provider" : "wx6885acbedba59c14"
-            }
-        },
-        "lazyCodeLoading" : "requiredComponents",
-        "embeddedAppIdList" : [ "wx15cd5d7964bcf326" ]
+        "lazyCodeLoading" : "requiredComponents"
     },
     "mp-alipay" : {
         "usingComponents" : true
