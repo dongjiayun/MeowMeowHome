@@ -59,8 +59,13 @@
                 {
                     "path": "loginByPassword",
                     "style": {
-                        "backgroundColor": "#F5F5F5",
-                        "enablePullDownRefresh": true
+                        "backgroundColor": "#F5F5F5"
+                    }
+                },
+                {
+                    "path": "signUp",
+                    "style": {
+                        "backgroundColor": "#F5F5F5"
                     }
                 }
             ]
@@ -73,6 +78,12 @@
                     "style": {
                         "backgroundColor": "#F5F5F5",
                         "enablePullDownRefresh": true
+                    }
+                },
+                {
+                    "path": "editor",
+                    "style": {
+                        "backgroundColor": "#F5F5F5"
                     }
                 }
             ]
@@ -98,6 +109,10 @@
             {
                 "name": "登陆",
                 "path": "pages/mine/loginByPassword"
+            },
+            {
+                "name": "编辑",
+                "path": "pages/article/editor"
             }
         ]
     }

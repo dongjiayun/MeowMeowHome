@@ -204,7 +204,7 @@
                                 >{{ smsIntervals[item.prop] === 'ended' ? '重新获取' : '获取验证码' }}</view>
                             </view>
                             <view v-if="item.type === 'uploadImages'" class="pa-form-main-item-upload-Images">
-                                <pa-upload-images
+                                <pa-upload-images-v2
                                     :number="item.number || 1"
                                     :cols="item.cols || 4"
                                     :list="getFormValue(item.prop)"
@@ -563,7 +563,9 @@ export default {
             this.$set(this.smsIntervals, prop, interval)
         },
         handleGetSmscode(prop) {
-            this.$emit('getSmscode', prop)
+            this.$emit('getSmscode', prop, () => {
+                this.startSmsInterval(prop)
+            })
         },
         handleTagClick(item, opt) {
             this.$set(this.form, item.prop, opt.value)

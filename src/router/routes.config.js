@@ -50,6 +50,10 @@ const mine = [
     {
         path: 'pages/mine/loginByPassword',
         name: 'loginByPassword'
+    },
+    {
+        path: 'pages/mine/signUp',
+        name: 'signUp'
     }
 ]
 
@@ -57,6 +61,10 @@ const article = [
     {
         path: 'pages/article/detail',
         name: 'articleDetail',
+    },
+    {
+        path: 'pages/article/editor',
+        name: 'articleEditor'
     }
 ]
 

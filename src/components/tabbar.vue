@@ -124,7 +124,7 @@ export default {
             return this.$store.state.business?.[bind]
         },
         handleCreate() {
-            this.$Router.push({ name: 'create' })
+            this.$Router.push({ name: 'articleEditor' })
         }
     }
 }
@@ -185,11 +185,13 @@ export default {
             position: relative;
             width: 120rpx;
             height: 80rpx;
+            top:-30rpx;
             display: flex;
             justify-content: center;
             align-items: center;
             border-radius: 32rpx;
             border: 10rpx solid $pingan-color;
+            background: #fff;
             &-leftear{
                 @include ear;
                 left: 18rpx;

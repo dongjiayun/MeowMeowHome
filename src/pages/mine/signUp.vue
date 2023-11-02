@@ -5,14 +5,14 @@
                 <pa-navbar />
             </view>
             <view class="pa-login-body">
-                <view class="pa-login-body-title">登陆喵喵喵</view>
+                <view class="pa-login-body-title">邮箱登录喵喵喵</view>
                 <pa-form
                     ref="form"
                     :forms="forms"
+                    @getSmscode="handleGetSmscode"
                 />
-                <view class="pa-login-body-signup" @click="handleSignup">无账号?直接使用邮箱登录! -></view>
                 <view style="margin-top: 40rpx">
-                    <button class="pa-mall-button" @click="handleLogin">立即登录</button>
+                    <button class="pa-mall-button" @click="handleLogin">立即注册/登陆</button>
                 </view>
             </view>
         </view>
@@ -22,6 +22,7 @@
 <script>
 import { Email } from '@/utils/valids'
 import { login } from '@/utils/auth'
+import { authModel } from '@/api'
 
 export default {
     data() {
@@ -45,31 +46,32 @@ export default {
                     ]
                 },
                 {
-                    type: 'input',
-                    inputType: 'password',
-                    label: '密码',
-                    prop: 'password',
-                    placeholder: '请输入密码',
+                    type: 'smscode',
+                    label: '验证码',
                     adjustPosition: false,
+                    prop: 'smscode',
+                    placeholder: '请输入验证码',
                     rules: [
                         {
                             required: true,
-                            errorMessage: '请输入密码'
+                            errorMessage: '请输入验证码'
                         },
                     ]
                 }
-            ]
+            ],
+            ticket: '',
         }
     },
     methods: {
         async handleLogin() {
-            const { email, password } = await this.$refs.form.validate()
+            const { email, smscode } = await this.$refs.form.validate()
             const params = {
                 email,
-                password,
-                loginType: 'emailWithPassword'
+                otp: smscode,
+                loginType: 'email',
+                ticket: this.ticket
             }
-            await login('password', params)
+            await login('email', params)
             this.$store.dispatch('setUserInfo')
             if (this.isFromCheckLogin) {
                 this.$Router.back()
@@ -77,9 +79,22 @@ export default {
                 this.$store.dispatch('retryLastPage')
             }
         },
-        handleSignup() {
-            this.$Router.push({
-                name: 'signUp'
+        async handleGetSmscode(prop, callback) {
+            const { email } = await this.$refs.form.validateField(['email'])
+            const params = {
+                email
+            }
+            this.$message.loading()
+            authModel.sendEmailOtp(params).then(res => {
+                if (res.status === 0) {
+                    this.$toast({ title: '验证码已发送' })
+                    this.ticket = res.data
+                    callback(prop)
+                } else {
+                    this.$toast({ title: res.message })
+                }
+            }).finally(() => {
+                this.$message.hide()
             })
         }
     }
@@ -89,7 +104,7 @@ export default {
 <style scoped lang="scss">
 .pa-login{
     height: 100vh;
-    background: url("https://qa-res.ipetapi.com/meowmeowmeow/cat1.gif") no-repeat bottom/cover;
+    background: url("https://qa-res.ipetapi.com/meowmeowmeow/cat2.gif") no-repeat bottom/cover;
     &-header{
         z-index: 10;
         position: sticky;

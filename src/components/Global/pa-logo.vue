@@ -1,7 +1,7 @@
 <template>
     <view class="pa-logo" :class="{ doubleBottomPadding }">
-        <view v-if="hideLogo" class="pa-logo-image" />
-        <view class="pa-logo-slogan">Meow 喵喵喵 Meow</view>
+        <!--        <view v-if="hideLogo" class="pa-logo-image" />-->
+        <view v-if="!hideLogo" class="pa-logo-slogan">Meow 喵喵喵 Meow</view>
     </view>
 </template>
 

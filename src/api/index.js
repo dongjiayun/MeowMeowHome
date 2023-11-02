@@ -12,6 +12,21 @@ export const articleModel = {
     },
     collect(articleId) {
         return http.post(`/article/collect/${articleId}`)
+    },
+    unLike(articleId) {
+        return http.delete(`/article/like/${articleId}`)
+    },
+    unCollect(articleId) {
+        return http.delete(`/article/collect/${articleId}`)
+    },
+    checkLikeAndCollect(articleId) {
+        return http.get(`/article/checkLikeAndCollect/${articleId}`)
+    },
+    create(data) {
+        return http.post('/article', data)
+    },
+    edit(data) {
+        return http.put('/article', data)
     }
 }
 
@@ -21,6 +36,9 @@ export const authModel = {
     },
     refresh() {
         return http.post('/auth/refreshToken')
+    },
+    sendEmailOtp(data) {
+        return http.post('/auth/sendEmailOtp', data)
     }
 }
 

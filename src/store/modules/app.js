@@ -80,7 +80,8 @@ const app = {
         },
         async setObsInfo({ commit }) {
             const { data } = await obsModel.getSignature()
-            commit('SET_OBS_INFO', data)
+            const result = { token: data }
+            commit('SET_OBS_INFO', result)
         },
         setStatusBarHeight({ commit }, height) {
             commit('SET_BAR_HEIGHT', height)

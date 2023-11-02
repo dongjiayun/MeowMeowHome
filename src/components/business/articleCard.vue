@@ -19,6 +19,20 @@
                 <view class="pa-article-card-info-time">
                     {{ dayjs(data.createdAt).format('YYYY-MM-DD HH:mm:ss') }}
                 </view>
+                <view class="pa-article-card-info-data">
+                    <view class="pa-article-card-info-data-item">
+                        <uni-icons color="#FF824C" type="hand-up" size="16" />
+                        <text>{{ likesCount }}</text>
+                    </view>
+                    <view class="pa-article-card-info-data-item">
+                        <uni-icons color="#FF824C" type="star" size="16" />
+                        <text>{{ collectCount }}</text>
+                    </view>
+                    <view class="pa-article-card-info-data-item">
+                        <uni-icons color="#FF824C" type="chat" size="16" />
+                        <text>{{ commentCount }}</text>
+                    </view>
+                </view>
             </view>
         </uni-transition>
     </view>
@@ -27,7 +41,7 @@
 <script>
 import { getThumb } from '@/utils/obs'
 import { random } from 'lodash'
-import { getRandomCover } from '@/utils'
+import { getRandomCover, toThousandsNum } from '@/utils'
 import dayjs from 'dayjs'
 
 export default {
@@ -37,11 +51,20 @@ export default {
     },
     computed: {
         cover() {
-            const cover = this.data.covers?.[0] || getRandomCover()
+            const cover = this.data.covers?.[0]?.fileUrl || getRandomCover()
             return cover
         },
         avatar() {
             return this.data.author?.avatar?.fileUrl || getRandomCover()
+        },
+        likesCount() {
+            return toThousandsNum(this.data.likesCount || 0, 0)
+        },
+        collectCount() {
+            return toThousandsNum(this.data.collectCount || 0, 0)
+        },
+        commentCount() {
+            return toThousandsNum(this.data.commentCount || 0, 0)
         }
     },
     methods: {
@@ -109,6 +132,19 @@ export default {
             font-size: 20rpx;
             font-weight: 400;
             color: #ccc;
+        }
+        &-data{
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin-top: 20rpx;
+            &-item{
+                font-size: 24rpx;
+                display: flex;
+                align-items: center;
+                color:#FF824C;
+                margin-right: 12rpx;
+            }
         }
     }
 }
