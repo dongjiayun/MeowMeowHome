@@ -11,7 +11,7 @@
                     :forms="forms"
                 />
                 <view style="margin-top: 40rpx">
-                    <button class="pa-mall-button" @click="handleLogin">登陆</button>
+                    <button class="pa-mall-button" @click="handleLogin">立即登录</button>
                 </view>
             </view>
         </view>
@@ -21,6 +21,7 @@
 <script>
 import { Email } from '@/utils/valids'
 import { authModel } from '@/api'
+import { login } from '@/utils/auth'
 
 export default {
     data() {
@@ -66,16 +67,13 @@ export default {
                 password,
                 loginType: 'emailWithPassword'
             }
-            this.$message.loading()
-            authModel.login(params).then(res => {
-                if (res.status === 0) {
-
-                } else {
-                    this.$toast({ title: res.message })
-                }
-            }).finally(() => {
-                this.$message.hide()
-            })
+            await login('password', params)
+            this.$store.dispatch('setUserInfo')
+            if (this.isFromCheckLogin) {
+                this.$Router.back()
+            } else {
+                this.$store.dispatch('retryLastPage')
+            }
         }
     }
 }

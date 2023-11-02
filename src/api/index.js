@@ -9,5 +9,8 @@ export const articleModel = {
 export const authModel = {
     login(data) {
         return http.post('/auth/signIn', data)
+    },
+    refresh() {
+        return http.post('/auth/refreshToken')
     }
 }

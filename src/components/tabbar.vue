@@ -30,7 +30,7 @@
             <view class="pa-tabbar-create-button">
                 <view class="pa-tabbar-create-button-leftear" />
                 <view class="pa-tabbar-create-button-rightear" />
-                <uni-icons type="plusempty" size="30" color="#FF824C" />
+                <uni-icons type="plusempty" size="22" color="#FF824C" />
             </view>
         </view>
         <view

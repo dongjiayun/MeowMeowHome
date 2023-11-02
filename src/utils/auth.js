@@ -121,48 +121,76 @@ export const checkMobile = () => {
     })
 }
 
-export const login = () => {
+export const login = (type, params) => {
     const islogin = store.state.user.isLogin
     if (islogin) {
         return
     }
     return new Promise((resolve, reject) => {
         store.commit('SET_IS_LOGIN', true)
-        uni.login({
-            success({ code }) {
+        switch (type) {
+            case 'wechat':
+                uni.login({
+                    success({ code }) {
+                        Toast.loading()
+                        authModel.login({ code }).then(async r => {
+                            if (r.status === 0) {
+                                const { cid, jwtToken, platNo, openId, unionId, refreshToken, phoneNo } = r.data
+                                await store.dispatch('login', {
+                                    token: jwtToken,
+                                    platNo,
+                                    openId,
+                                    unionId,
+                                    refreshToken,
+                                    cid,
+                                    phoneNo
+                                })
+                                toast({ title: '登录成功' })
+                                resolve(!!phoneNo)
+                            } else {
+                                toast({ title: r.message })
+                                reject(r.message)
+                            }
+                        }).catch(e => {
+                            toast({ title: '登录失败,请稍后重试' })
+                            reject(e)
+                        }).finally(() => {
+                            store.commit('SET_IS_LOGIN', false)
+                            Toast.hide()
+                        })
+                    },
+                    fail(e) {
+                        toast({ title: '登录失败,请稍后重试' })
+                        store.commit('SET_IS_LOGIN', false)
+                        reject(e)
+                    }
+                })
+                break
+            default :
                 Toast.loading()
-                authModel.login({ code }).then(async r => {
-                    if (r.status === 0) {
-                        const { cid, jwtToken, platNo, openId, unionId, refreshToken, phoneNo } = r.data
+                authModel.login(params).then(async res => {
+                    if (res.status === 0) {
+                        const { cid, token, refreshToken, phone } = res.data
                         await store.dispatch('login', {
-                            token: jwtToken,
-                            platNo,
-                            openId,
-                            unionId,
+                            token,
                             refreshToken,
                             cid,
-                            phoneNo
+                            phone
                         })
                         toast({ title: '登录成功' })
-                        resolve(!!phoneNo)
+                        resolve(!!phone)
                     } else {
-                        toast({ title: r.message })
-                        reject(r.message)
+                        toast({ title: res.message })
+                        reject(res.message)
                     }
+                }).finally(() => {
+                    Toast.hide()
+                    store.commit('SET_IS_LOGIN', false)
                 }).catch(e => {
                     toast({ title: '登录失败,请稍后重试' })
                     reject(e)
-                }).finally(() => {
-                    store.commit('SET_IS_LOGIN', false)
-                    Toast.hide()
                 })
-            },
-            fail(e) {
-                toast({ title: '登录失败,请稍后重试' })
-                store.commit('SET_IS_LOGIN', false)
-                reject(e)
-            }
-        })
+        }
     })
 }
 
