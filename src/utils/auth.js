@@ -68,7 +68,7 @@ export const goToLogin = isFromCheckLogin => {
         name, query
     }
     if (name !== 'login') { store.dispatch('setPageBeforeLogin', route) }
-    Vue.prototype.$Router[isFromCheckLogin ? 'push' : 'redirectTo']({ name: 'login', query: { isFromCheckLogin }})
+    Vue.prototype.$Router[isFromCheckLogin ? 'push' : 'redirectTo']({ name: 'loginByPassword', query: { isFromCheckLogin }})
 }
 
 export const goToSetMobile = () => {

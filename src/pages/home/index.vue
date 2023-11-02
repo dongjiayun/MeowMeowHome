@@ -3,7 +3,6 @@
         ref="container"
         is-page
         background="#F5F5F5"
-        scroll-x-hidden
         use-origin-cover
     >
         <view class="pa-home-page">
@@ -11,9 +10,9 @@
             <view class="pa-home-page-body">
                 <pa-water-fall :data="list">
                     <template #default="{ item }">
-                        <goods-card
+                        <article-card
                             :data="item"
-                            class="pa-home-recommend-main-item"
+                            class="pa-home-page-body-item"
                         />
                     </template>
                 </pa-water-fall>
@@ -27,19 +26,31 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import articleCard from '@/components/business/articleCard.vue'
+import pagination from '@/mixin/pagination'
+import { articleModel } from '@/api'
+import { uniqBy } from 'lodash'
 
 export default {
     name: 'Index',
     components: {
+        articleCard
     },
     computed: {
         ...mapGetters(['token']),
     },
+    mixins: [pagination],
     onPullDownRefresh() {
         this.init()
     },
+    onReachBottom() {
+        if (!this.noMore) {
+            this.getData()
+        }
+    },
     data() {
         return {
+            list: []
         }
     },
     mounted() {
@@ -49,7 +60,32 @@ export default {
     },
     methods: {
         async init() {
+            this.initPagination()
+            this.list = []
+            this.getData()
         },
+        getData() {
+            const params = {
+                pageNo: this.pageNo,
+                pageIndex: this.pageIndex,
+            }
+            this.$message.loading()
+            articleModel.list(params).then(res => {
+                if (res.status === 0) {
+                    if (res.data.list && res.data.list.length) {
+                        this.list = uniqBy([... this.list, ... res.data.list], 'articleId')
+                        this.pageIndex++
+                    } else {
+                        this.noMore = true
+                    }
+                } else {
+                    this.$toast({ title: res.message })
+                }
+            }).finally(() => {
+                this.$message.hide()
+                uni.stopPullDownRefresh()
+            })
+        }
     }
 }
 </script>
@@ -67,7 +103,7 @@ export default {
             height: 64rpx
         }
     }
-    &-main{
+    &-body{
         margin: 0 16rpx;
         &-item{
             margin-bottom: 16rpx;

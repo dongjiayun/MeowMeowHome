@@ -5,6 +5,7 @@
                 <pa-navbar />
             </view>
             <view class="pa-login-body">
+                <view class="pa-login-body-title">登陆喵喵喵</view>
                 <pa-form
                     ref="form"
                     has-division
@@ -20,7 +21,6 @@
 
 <script>
 import { Email } from '@/utils/valids'
-import { authModel } from '@/api'
 import { login } from '@/utils/auth'
 
 export default {
@@ -90,7 +90,14 @@ export default {
     }
     &-body{
         padding: 16rpx;
-        margin-top: 60vh;
+        margin-top: 40vh;
+        &-title{
+            margin-bottom: 5vh;
+            font-size: 60rpx;
+            color: #fff;
+            font-weight: bolder;
+            text-align: center;
+        }
     }
 }
 </style>

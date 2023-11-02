@@ -15,12 +15,14 @@ const base = [
 
 const mall = [
     {
-        path: 'pages/mall/index',
+        path: 'pages/index/index',
         name: 'mall',
         tabbarName: '购物',
         isTabbar: true,
         tabActiveIcon: require('static/tabbar/cart_active.png'),
-        tabInactiveIcon: require('static/tabbar/cart.png')
+        tabInactiveIcon: require('static/tabbar/cart.png'),
+        openMiniprogram: true,
+        appId: 'wx284a972db321f04f'
     }
 ]
 
@@ -48,6 +50,13 @@ const mine = [
     {
         path: 'pages/mine/loginByPassword',
         name: 'loginByPassword'
+    }
+]
+
+const article = [
+    {
+        path: 'pages/article/detail',
+        name: 'articleDetail',
     }
 ]
 
@@ -79,6 +88,7 @@ const routes = [
     ...mall,
     ...notice,
     ...mine,
+    ...article,
     ...common,
 ]
 

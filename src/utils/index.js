@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import store from '@/store'
 import dict from '@/config/dict'
-import { floor, round } from 'lodash'
+import { floor, round, random } from 'lodash'
 import { getCouponPackage } from '@/utils/mall'
 import Config from '@/config'
 import dayjs from 'dayjs'
@@ -511,4 +511,9 @@ export const debounce = (func, delay = 200) => {
             func.apply(this, args)
         }, delay)
     }
+}
+
+export const getRandomCover = () => {
+    const index = round(random(0, 4))
+    return `https://qa-res.ipetapi.com/meowmeowmeow/placeholders/${index}.png`
 }

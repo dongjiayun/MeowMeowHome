@@ -89,7 +89,6 @@ export default {
             const hasPhoneNo = await login()
             this.isLoginSuccess = true
             this.$store.dispatch('setUserInfo')
-            this.$store.dispatch('getCart')
             if (hasPhoneNo) {
                 if (this.isFromCheckLogin) {
                     this.$Router.back()

@@ -9,9 +9,6 @@ export default Vue.extend({
         await this.$store.dispatch('login')
         this.$store.dispatch('setObsInfo')
         this.$store.dispatch('setUserInfo')
-        if (this.$store.state.user.token) {
-            this.$store.dispatch('getCart')
-        }
         getTokenInterval()
     },
     onShow() {

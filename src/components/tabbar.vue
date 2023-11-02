@@ -109,7 +109,13 @@ export default {
             const isActive = this.$Router.checkCurrentRouteActive(path)
             return isActive ? tabActiveIcon : tabInactiveIcon
         },
-        handleClick({ name }) {
+        handleClick({ name, openMiniprogram, appId, path }) {
+            if (openMiniprogram) {
+                return uni.navigateToMiniProgram({
+                    appId,
+                    path,
+                })
+            }
             if (this.$Router.getCurrentRouteName() !== name) {
                 this.$Router.redirectTo({ name })
             }
