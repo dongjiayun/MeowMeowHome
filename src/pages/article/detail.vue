@@ -1,5 +1,5 @@
 <template>
-    <pa-container is-page>
+    <pa-container ref="container" is-page>
         <view class="pa-article-detail">
             <view class="pa-article-detail-header">
                 <pa-navbar />
@@ -28,10 +28,18 @@
                 </view>
             </view>
             <pa-footer>
-                <view v-if="isSelf" classs="pa-article-detail-footer">
-                    <button class="pa-mall-button" @click="handleUnLike">
+                <view v-if="isSelf" class="pa-article-detail-footer">
+                    <button class="pa-mall-button" @click="handleDelete">
                         <text>删除</text>
-                        <uni-icons type="hand-up" size="24" />
+                        <uni-icons type="trash" size="24" />
+                    </button>
+                    <button v-if="isPrivate" class="pa-mall-button" @click="handlePublic">
+                        <text>设为公开</text>
+                        <uni-icons type="eye" size="24" />
+                    </button>
+                    <button v-else class="pa-mall-button-plain" @click="handlePrivate">
+                        <text>设为私密</text>
+                        <uni-icons type="eye-slash" size="24" />
                     </button>
                 </view>
                 <view v-else class="pa-article-detail-footer">
@@ -112,7 +120,10 @@ export default {
             return toThousandsNum(this.data.commentCount || 0, 0)
         },
         isSelf() {
-            return this.cid === this.data.author.cid
+            return this.cid === this.data?.author?.cid
+        },
+        isPrivate() {
+            return this.data.isPrivate
         }
     },
     mounted() {
@@ -207,6 +218,70 @@ export default {
         handleComment() {
 
         },
+        handlePrivate() {
+            this.$refs.container.showConfirm({
+                content: '确定要设为私密吗?',
+                confirm: () => {
+                    const params = {
+                        articleId: this.articleId,
+                        isPrivate: true
+                    }
+                    this.$message.loading()
+                    articleModel.setPrivate(params).then(res => {
+                        if (res.status === 0) {
+                            this.$toast({ title: '设置成功~' })
+                            this.getDetail()
+                        } else {
+                            this.$toast({ title: res.message })
+                        }
+                    }).finally(() => {
+                        this.$message.hide()
+                    })
+                }
+            })
+        },
+        handlePublic() {
+            this.$refs.container.showConfirm({
+                content: '确定要设为公开吗?',
+                confirm: () => {
+                    const params = {
+                        articleId: this.articleId,
+                        isPrivate: false
+                    }
+                    this.$message.loading()
+                    articleModel.setPrivate(params).then(res => {
+                        if (res.status === 0) {
+                            this.$toast({ title: '设置成功~' })
+                            this.getDetail()
+                        } else {
+                            this.$toast({ title: res.message })
+                        }
+                    }).finally(() => {
+                        this.$message.hide()
+                    })
+                }
+            })
+        },
+        handleDelete() {
+            this.$refs.container.showConfirm({
+                content: '确定要删除这篇文章吗😲?',
+                confirm: () => {
+                    this.$message.loading()
+                    articleModel.deleteArticle(this.articleId).then(res => {
+                        if (res.status === 0) {
+                            this.$toast({ title: '删除成功~' })
+                            setTimeout(() => {
+                                this.$Router.back()
+                            }, 1000)
+                        } else {
+                            this.$toast({ title: res.message })
+                        }
+                    }).finally(() => {
+                        this.$message.hide()
+                    })
+                }
+            })
+        }
     }
 }
 </script>
@@ -262,7 +337,7 @@ export default {
     &-footer{
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: space-evenly;
     }
 }
 </style>

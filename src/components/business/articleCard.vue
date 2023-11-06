@@ -10,6 +10,7 @@
                 :src="getThumb(cover,60)"
                 mode="widthFix"
             />
+            <view v-if="data.isPrivate" class="pa-article-card-private">私密</view>
             <view class="pa-article-card-info">
                 <view class="pa-article-card-info-title">{{ data.title }}</view>
                 <view class="pa-article-card-info-author">
@@ -101,6 +102,17 @@ export default {
         &.stableSizeSmall{
             width: 230rpx;
         }
+    }
+    &-private{
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding:8rpx;
+        border-bottom-right-radius: 16rpx;
+        background: #FFAA2C;
+        color: #FFFFFF;
+        backdrop-filter: blur(10px);
+        opacity: 0.8;
     }
     &-info{
         padding:8rpx 16rpx 16rpx;

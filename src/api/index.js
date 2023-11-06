@@ -27,6 +27,12 @@ export const articleModel = {
     },
     edit(data) {
         return http.put('/article', data)
+    },
+    setPrivate(data) {
+        return http.post(`/article/private/${data.articleId}`, data)
+    },
+    deleteArticle(articleId) {
+        return http.delete(`/article/${articleId}`)
     }
 }
 
