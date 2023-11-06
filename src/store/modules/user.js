@@ -8,14 +8,14 @@ const user = {
         token: undefined,
         refreshToken: undefined,
         avatarUrl: undefined,
-        nickName: undefined,
+        username: undefined,
         platNo: undefined,
         openId: undefined,
         unionId: undefined,
         isLogin: false,
         hasFreshToken: false,
         cid: undefined,
-        phoneNo: undefined
+        phone: undefined
     },
     mutations: {
         SET_TOKEN: (state, token) => {
@@ -67,24 +67,24 @@ const user = {
             state.cid = undefined
             Storage.remove('pa_cid')
         },
-        SET_PHONE_NO: (state, phoneNo) => {
-            state.phoneNo = phoneNo
-            Storage.set('pa_phone_no', phoneNo)
+        SET_PHONE_NO: (state, phone) => {
+            state.phone = phone
+            Storage.set('pa_phone_no', phone)
         },
         REMOVE_PHONE_NO: state => {
-            state.phoneNo = undefined
+            state.phone = undefined
             Storage.remove('pa_phone_no')
         },
         SET_USER_INFO: (state, info) => {
-            const { avatarUrl, nickName, platNo } = info
+            const { avatarUrl, username, platNo } = info
             state.avatarUrl = avatarUrl
-            state.nickName = nickName
+            state.username = username
             state.platNo = platNo
             Storage.set('pa_user_info', info)
         },
         REMOVE_USER_INFO: (state) => {
             state.avatarUrl = undefined
-            state.nickName = undefined
+            state.username = undefined
             state.platNo = undefined
             Storage.remove('pa_user_info')
         },
@@ -105,7 +105,7 @@ const user = {
                 let openId = ''
                 let unionId = ''
                 let cid = ''
-                let phoneNo = ''
+                let phone = ''
                 if (payload) {
                     payload.token ? token = payload.token : token = Storage.get('pa_token')
                     payload.refreshToken ? refreshToken = payload.refreshToken : refreshToken = Storage.get('pa_refresh_token')
@@ -114,7 +114,7 @@ const user = {
                     payload.openId ? openId = payload.openId : openId = Storage.get('pa_open_id')
                     payload.unionId ? unionId = payload.unionId : unionId = Storage.get('pa_union_id')
                     payload.cid ? cid = payload.cid : cid = Storage.get('pa_cid')
-                    payload.phoneNo ? phoneNo = payload.phoneNo : () => {
+                    payload.phone ? phone = payload.phone : () => {
                         commit('REMOVE_PHONE_NO')
                     }
                     Storage.set('pa_token_expired', dayjs().add(30, 'm').valueOf())
@@ -126,7 +126,7 @@ const user = {
                     unionId = Storage.get('pa_union_id')
                     refreshToken = Storage.get('pa_refresh_token')
                     cid = Storage.get('pa_cid')
-                    phoneNo = Storage.get('pa_phone_no')
+                    phone = Storage.get('pa_phone_no')
                 }
                 if (token) {
                     commit('SET_TOKEN', token)
@@ -150,8 +150,8 @@ const user = {
                 if (cid) {
                     commit('SET_CID', cid)
                 }
-                if (phoneNo) {
-                    commit('SET_PHONE_NO', phoneNo)
+                if (phone) {
+                    commit('SET_PHONE_NO', phone)
                 }
                 resolve()
             })
@@ -191,10 +191,11 @@ const user = {
         },
         setAvatar({ state }, avatarUrl) {
             const params = {
-                avatarUrl
+                cid: state.cid,
+                avatar: { fileUrl: avatarUrl }
             }
             return new Promise((resolve, reject) => {
-                userModel.setProfile(params).then(res => {
+                userModel.update(params).then(res => {
                     if (res.status === 0) {
                         state.avatarUrl = avatarUrl
                         Vue.prototype.$message.success({ title: '修改成功', duration: 500 })
@@ -206,14 +207,15 @@ const user = {
                 })
             })
         },
-        setNickname({ state }, nickName) {
+        setNickname({ state }, username) {
             const params = {
-                nickName
+                cid: state.cid,
+                username
             }
             return new Promise((resolve, reject) => {
-                userModel.setProfile(params).then(res => {
+                userModel.update(params).then(res => {
                     if (res.status === 0) {
-                        state.nickName = nickName
+                        state.username = username
                         Vue.prototype.$message.success({ title: '修改成功', duration: 500 })
                         resolve()
                     } else {
@@ -225,10 +227,11 @@ const user = {
         },
         setGender({ state }, gender) {
             const params = {
+                cid: state.cid,
                 gender
             }
             return new Promise((resolve, reject) => {
-                userModel.setProfile(params).then(res => {
+                userModel.update(params).then(res => {
                     if (res.status === 0) {
                         state.gender = gender
                         Vue.prototype.$message.success({ title: '修改成功', duration: 500 })
@@ -240,14 +243,14 @@ const user = {
                 })
             })
         },
-        setPhoneNo({ state, commit }, phoneNo) {
+        setPhoneNo({ state, commit }, phone) {
             const params = {
-                phoneNo
+                phone
             }
             return new Promise((resolve, reject) => {
-                userModel.setProfile(params).then(res => {
+                userModel.update(params).then(res => {
                     if (res.status === 0) {
-                        commit('SET_PHONE_NO', phoneNo)
+                        commit('SET_PHONE_NO', phone)
                         resolve()
                     } else {
                         reject()

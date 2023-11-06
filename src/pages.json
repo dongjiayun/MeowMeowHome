@@ -57,13 +57,33 @@
             "root": "pages/mine",
             "pages": [
                 {
-                    "path": "loginByPassword",
+                    "path": "member/index",
+                    "style": {
+                        "backgroundColor": "#FFAA2C",
+                        "enablePullDownRefresh": true
+                    }
+                },
+                {
+                    "path": "member/config",
+                    "style": {
+                        "backgroundColor": "#FFAA2C",
+                        "enablePullDownRefresh": true
+                    }
+                },
+                {
+                    "path": "member/loginByPassword",
                     "style": {
                         "backgroundColor": "#F5F5F5"
                     }
                 },
                 {
-                    "path": "signUp",
+                    "path": "member/signUp",
+                    "style": {
+                        "backgroundColor": "#F5F5F5"
+                    }
+                },
+                {
+                    "path": "member/editNickname",
                     "style": {
                         "backgroundColor": "#F5F5F5"
                     }
@@ -108,11 +128,19 @@
         "list": [
             {
                 "name": "登陆",
-                "path": "pages/mine/loginByPassword"
+                "path": "pages/mine/member/loginByPassword"
             },
             {
                 "name": "编辑",
                 "path": "pages/article/editor"
+            },
+            {
+                "name": "我的",
+                "path": "pages/mine/member/index"
+            },
+            {
+                "name": "设置",
+                "path": "pages/mine/member/config"
             }
         ]
     }

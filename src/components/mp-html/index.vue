@@ -7,8 +7,6 @@
                 <i class="iconfont icon-img" data-method="insertImg" @tap="edit" />
                 <i class="iconfont icon-video" data-method="insertVideo" @tap="edit" />
                 <i class="iconfont icon-link" data-method="insertLink" @tap="edit" />
-                <i class="iconfont icon-text" data-method="insertText" @tap="edit" />
-                <i class="iconfont icon-line" data-method="insertHtml" data-param="<hr style='margin:10px 0'/>" @tap="edit" />
                 <i class="iconfont icon-heading" @tap="insertHead" />
             </view>
             <view style="display: flex;">
@@ -18,13 +16,15 @@
                     data-param="<blockquote style='padding:0 1em;color:#6a737d;border-left:.25em solid #dfe2e5'>引用</blockquote>"
                     @tap="edit"
                 />
-                <i class="iconfont icon-table" @tap="insertTable" />
+                <!--                <i class="iconfont icon-table" @tap="insertTable" />-->
                 <i class="iconfont icon-code" @tap="insertCode" />
                 <i class="iconfont icon-emoji" data-type="emoji" @tap="openDialog" />
                 <i class="iconfont icon-template" data-type="template" @tap="openDialog" />
-                <i class="iconfont icon-clear" @tap="clear" />
-                <i class="iconfont icon-load" @tap="load" />
-                <i :class="'iconfont icon-' + (editable ? 'save' : 'edit')" @tap="save" />
+                <i class="iconfont icon-text" data-method="insertText" @tap="edit" />
+                <i class="iconfont icon-line" data-method="insertHtml" data-param="<hr style='margin:10px 0'/>" @tap="edit" />
+                <!--                <i class="iconfont icon-clear" @tap="clear" />-->
+                <!--                <i class="iconfont icon-load" @tap="load" />-->
+                <!--                <i :class="'iconfont icon-' + (editable ? 'save' : 'edit')" @tap="save" />-->
             </view>
         </view>
         <view style="padding-top: 40rpx">
@@ -32,7 +32,6 @@
                 ref="article"
                 container-style="padding:20px;min-height:calc(100vh - 130px)"
                 :content="content"
-                domain="https://mp-html.oss-cn-hangzhou.aliyuncs.com"
                 :tag-style="tagStyle"
                 :editable="editable"
                 @remove="remove"

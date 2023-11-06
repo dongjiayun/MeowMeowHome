@@ -121,35 +121,33 @@ export const checkMobile = () => {
     })
 }
 
-export const login = (type, params) => {
+export const login = (loginType, params) => {
     const islogin = store.state.user.isLogin
     if (islogin) {
         return
     }
     return new Promise((resolve, reject) => {
         store.commit('SET_IS_LOGIN', true)
-        switch (type) {
+        console.log(loginType)
+        switch (loginType) {
             case 'wechat':
                 uni.login({
                     success({ code }) {
                         Toast.loading()
-                        authModel.login({ code }).then(async r => {
-                            if (r.status === 0) {
-                                const { cid, jwtToken, platNo, openId, unionId, refreshToken, phoneNo } = r.data
+                        authModel.login({ loginType, jsCode: code }).then(async res => {
+                            if (res.status === 0) {
+                                const { cid, token, refreshToken, phone } = res.data
                                 await store.dispatch('login', {
-                                    token: jwtToken,
-                                    platNo,
-                                    openId,
-                                    unionId,
+                                    token,
                                     refreshToken,
                                     cid,
-                                    phoneNo
+                                    phone
                                 })
                                 toast({ title: '登录成功' })
-                                resolve(!!phoneNo)
+                                resolve(!!phone)
                             } else {
-                                toast({ title: r.message })
-                                reject(r.message)
+                                toast({ title: res.message })
+                                reject(res.message)
                             }
                         }).catch(e => {
                             toast({ title: '登录失败,请稍后重试' })

@@ -129,14 +129,15 @@ export default {
 
 <style lang="scss" scoped>
 .pa-upload-mulit-image {
-    padding:  30rpx 0;
+    padding: 0;
     position: relative;
     display: flex;
     align-items: center;
     position: relative;
+    flex-wrap: wrap;
     &-add{
-        width: 144rpx;
-        height: 144rpx;
+        width: 120rpx;
+        height: 120rpx;
         border-radius: 8rpx;
         opacity: 0.5;
         border: 1rpx solid #CCCCCF;
@@ -145,6 +146,7 @@ export default {
         align-items: center;
         flex-direction: column;
         margin-right: 24rpx;
+        margin-bottom: 16rpx;
         &-icon{
             width: 48rpx;
             height: 48rpx;
@@ -165,9 +167,10 @@ export default {
     &-item{
         margin-right: 24rpx;
         position:relative;
+        margin-bottom: 16rpx;
         .pre-image {
-            width: 144rpx;
-            height: 144rpx;
+            width: 120rpx;
+            height: 120rpx;
             border-radius: 8rpx;
             overflow: hidden;
             .pre-image-video{

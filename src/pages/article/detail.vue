@@ -28,7 +28,13 @@
                 </view>
             </view>
             <pa-footer>
-                <view class="pa-article-detail-footer">
+                <view v-if="isSelf" classs="pa-article-detail-footer">
+                    <button class="pa-mall-button" @click="handleUnLike">
+                        <text>删除</text>
+                        <uni-icons type="hand-up" size="24" />
+                    </button>
+                </view>
+                <view v-else class="pa-article-detail-footer">
                     <button v-if="isLike" class="pa-mall-button" @click="handleUnLike">
                         <text>取消点赞</text>
                         <uni-icons type="hand-up" size="24" />
@@ -89,7 +95,7 @@ export default {
         this.init()
     },
     computed: {
-        ...mapGetters(['token']),
+        ...mapGetters(['token', 'cid']),
         covers() {
             return this.data?.covers?.map(i => i.fileUrl) || [getRandomCover()]
         },
@@ -104,6 +110,9 @@ export default {
         },
         commentCount() {
             return toThousandsNum(this.data.commentCount || 0, 0)
+        },
+        isSelf() {
+            return this.cid === this.data.author.cid
         }
     },
     mounted() {

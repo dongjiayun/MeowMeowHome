@@ -40,7 +40,7 @@ const notice = [
 
 const mine = [
     {
-        path: 'pages/mine/index',
+        path: 'pages/mine/member/index',
         name: 'mine',
         tabbarName: '我的',
         isTabbar: true,
@@ -48,11 +48,19 @@ const mine = [
         tabInactiveIcon: require('static/tabbar/mine.png')
     },
     {
-        path: 'pages/mine/loginByPassword',
+        path: 'pages/mine/member/config',
+        name: 'memberConfig'
+    },
+    {
+        path: 'pages/mine/member/editNickname',
+        name: 'memberEditNickname'
+    },
+    {
+        path: 'pages/mine/member/loginByPassword',
         name: 'loginByPassword'
     },
     {
-        path: 'pages/mine/signUp',
+        path: 'pages/mine/member/signUp',
         name: 'signUp'
     }
 ]

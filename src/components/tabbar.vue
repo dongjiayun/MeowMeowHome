@@ -133,6 +133,8 @@ export default {
 <style lang="scss" scoped>
 @import "@/styles";
 .pa-tabbar{
+    border-top-left-radius: 30rpx;
+    border-top-right-radius: 30rpx;
     z-index: 10;
     display: flex;
     justify-content: space-around;
@@ -185,7 +187,7 @@ export default {
             position: relative;
             width: 120rpx;
             height: 80rpx;
-            top:-30rpx;
+            top:10rpx;
             display: flex;
             justify-content: center;
             align-items: center;

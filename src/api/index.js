@@ -39,6 +39,17 @@ export const authModel = {
     },
     sendEmailOtp(data) {
         return http.post('/auth/sendEmailOtp', data)
+    },
+    logout() {
+        return http.post('/auth/signOut')
     }
 }
 
+export const userModel = {
+    info(cid) {
+        return http.get(`/user/${cid}`)
+    },
+    update(data) {
+        return http.put('/user', data)
+    }
+}

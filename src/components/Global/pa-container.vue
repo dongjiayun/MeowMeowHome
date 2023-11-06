@@ -65,7 +65,10 @@ export default {
         shareCover: String,
         shareTitle: String,
         disableShare: Boolean,
-        useOriginCover: Boolean,
+        useOriginCover: {
+            type: Boolean,
+            default: true
+        },
         shareQueryBlackList: {
             type: Array,
             default: () => []
