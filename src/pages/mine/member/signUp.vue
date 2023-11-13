@@ -1,5 +1,8 @@
 <template>
-    <pa-container is-page>
+    <pa-container
+        disable-share
+        is-page
+    >
         <view class="pa-login">
             <view class="pa-login-header">
                 <pa-navbar />

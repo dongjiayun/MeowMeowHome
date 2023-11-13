@@ -41,11 +41,9 @@ http.interceptor.request(
             config.header['Authorization'] = ''
         }
         if (refreshToken) {
-            config.header['refreshToken'] = refreshToken
-            config.header['refresh-token'] = refreshToken
+            config.header['Refresh-Token'] = refreshToken
         } else {
-            config.header['refreshToken'] = ''
-            config.header['refresh-token'] = ''
+            config.header['Refresh-Token'] = ''
         }
         return config
     },

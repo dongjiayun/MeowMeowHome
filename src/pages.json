@@ -107,6 +107,18 @@
                     }
                 }
             ]
+        },
+        {
+            "root": "pages/notice",
+            "pages": [
+                {
+                    "path": "index",
+                    "style": {
+                        "backgroundColor": "#F5F5F5",
+                        "enablePullDownRefresh": true
+                    }
+                }
+            ]
         }
     ],
 	"globalStyle": {
@@ -141,6 +153,10 @@
             {
                 "name": "设置",
                 "path": "pages/mine/member/config"
+            },
+            {
+                "name": "消息",
+                "path": "pages/notice/index"
             }
         ]
     }

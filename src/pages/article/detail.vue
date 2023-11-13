@@ -2,7 +2,7 @@
     <pa-container ref="container" is-page>
         <view class="pa-article-detail">
             <view class="pa-article-detail-header">
-                <pa-navbar />
+                <pa-navbar>{{ data.author.username || '匿名猫猫' }}的小作文</pa-navbar>
             </view>
             <view class="pa-article-detail-body">
                 <banner :data="covers" />
@@ -14,6 +14,15 @@
                         <view class="pa-article-detail-body-main-subtitle-author">
                             <image class="pa-article-detail-body-main-subtitle-author-avatar" :src="avatar" />
                             <view class="pa-article-detail-body-main-subtitle-author-username">{{ data.author.username || '匿名猫猫' }}</view>
+                            <view v-if="!isSelf" class="pa-article-detail-body-main-subtitle-author-follow" @click="isFollow ? handleUnFollow() : handleFollow()">
+                                <template v-if="isFollow">
+                                    <view>取消关注</view>
+                                </template>
+                                <template v-else>
+                                    <view>关注</view>
+                                    <uni-icons type="plusempty" color="#fff" size="10" />
+                                </template>
+                            </view>
                         </view>
                         <view class="pa-article-detail-body-main-subtitle-time">
                             发表于{{ dayjs(data.createdAt).format('YYYY-MM-DD HH:mm:ss') }}
@@ -29,6 +38,14 @@
             </view>
             <pa-footer>
                 <view v-if="isSelf" class="pa-article-detail-footer">
+                    <view class="pa-article-detail-footer-data">
+                        <text>{{ likesCount }}</text>
+                        <uni-icons color="FFAA2C" type="hand-up" size="24" />
+                    </view>
+                    <view class="pa-article-detail-footer-data">
+                        <text>{{ collectCount }}</text>
+                        <uni-icons color="FFAA2C" type="star" size="24" />
+                    </view>
                     <button class="pa-mall-button" @click="handleDelete">
                         <text>删除</text>
                         <uni-icons type="trash" size="24" />
@@ -78,7 +95,7 @@
 <script>
 import banner from '@/pages/article/components/banner.vue'
 import { getRandomCover, toThousandsNum } from '@/utils'
-import { articleModel } from '@/api'
+import { articleModel, userModel } from '@/api'
 import dayjs from 'dayjs'
 import { mapGetters } from 'vuex'
 import mpHtml from '@/components/mp-html/mp-html.vue'
@@ -93,7 +110,8 @@ export default {
             articleId: '',
             data: {},
             isLike: false,
-            isCollect: false
+            isCollect: false,
+            isFollow: false,
         }
     },
     onLoad({ articleId }) {
@@ -124,7 +142,7 @@ export default {
         },
         isPrivate() {
             return this.data.isPrivate
-        }
+        },
     },
     mounted() {
         this.init()
@@ -140,12 +158,26 @@ export default {
                 if (res.status === 0) {
                     this.data = res.data
                     this.checkLikeAndCollect()
+                    this.checkFollow()
                 } else {
                     this.$toast({ title: res.message })
                 }
             }).finally(() => {
                 this.$message.hide()
                 uni.stopPullDownRefresh()
+            })
+        },
+        checkFollow() {
+            if (!this.token) {
+                return
+            }
+            const params = {
+                cid: this.data.author.cid
+            }
+            userModel.checkFollow(params).then(res => {
+                if (res.status === 0) {
+                    this.isFollow = res.data
+                }
             })
         },
         checkLikeAndCollect() {
@@ -281,6 +313,32 @@ export default {
                     })
                 }
             })
+        },
+        handleFollow() {
+            this.$message.loading()
+            userModel.follow(this.data.author.cid).then(res => {
+                if (res.status === 0) {
+                    this.$toast({ title: '关注成功~' })
+                    this.isFollow = true
+                } else {
+                    this.$toast({ title: res.message })
+                }
+            }).finally(() => {
+                this.$message.hide()
+            })
+        },
+        handleUnFollow() {
+            this.$message.loading()
+            userModel.unFollow(this.data.author.cid).then(res => {
+                if (res.status === 0) {
+                    this.$toast({ title: '取消关注成功~' })
+                    this.isFollow = false
+                } else {
+                    this.$toast({ title: res.message })
+                }
+            }).finally(() => {
+                this.$message.hide()
+            })
         }
     }
 }
@@ -292,6 +350,7 @@ export default {
         z-index: 10;
         position: sticky;
         top: 0;
+        background: #fff;
     }
     &-body{
         &-main{
@@ -322,6 +381,20 @@ export default {
                         font-weight: 400;
                         color: #332C22;
                     }
+                    &-follow{
+                        font-size: 24rpx;
+                        font-weight: 400;
+                        color:#fff;
+                        background: #FFAA2C;
+                        margin-left: 12rpx;
+                        padding: 4rpx 16rpx;
+                        border-radius: 24rpx;
+                        display: flex;
+                        align-items: center;
+                        &.isFollow{
+                            background: #ccc;
+                        }
+                    }
                 }
                 &-time{
                     font-size: 20rpx;
@@ -338,6 +411,11 @@ export default {
         display: flex;
         align-items: center;
         justify-content: space-evenly;
+        &-data{
+            display: flex;
+            align-items: center;
+            color:#FFAA2C;
+        }
     }
 }
 </style>

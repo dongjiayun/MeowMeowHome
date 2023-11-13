@@ -48,16 +48,18 @@
             :descs="previewImageDescs"
             @swiperChange="handlePreviewSwiperChange"
         />
+        <notice-bar ref="notice" />
     </view>
 </template>
 
 <script>
 import LoadingMask from '@/components/loadingMask'
+import NoticeBar from '@/components/business/noticeBar.vue'
 import tabbar from '../tabbar'
 
 export default {
     name: 'PaContainer',
-    components: { LoadingMask, tabbar },
+    components: { LoadingMask, tabbar, NoticeBar },
     props: {
         background: String,
         isPage: Boolean,
@@ -122,6 +124,7 @@ export default {
     beforeDestroy() {
         uni.$off('previewImage')
         uni.$off('closePreviewImage')
+        uni.$off('showNotice')
     },
     methods: {
         init() {
@@ -130,6 +133,7 @@ export default {
                 // console.log('this.isPage')
                 uni.$on('previewImage', this.previewImage)
                 uni.$on('closePreviewImage', this.$refs.previewImage.close)
+                uni.$on('showNotice', this.handleShowNotice)
             }
         },
         handleEnableShare() {
@@ -222,6 +226,9 @@ export default {
         handlePreviewSwiperChange(index) {
             this.$emit('previewSwiperChange', index)
             uni.$emit('previewSwiperChange', index)
+        },
+        handleShowNotice() {
+            this.$refs.notice.open()
         }
     }
 }

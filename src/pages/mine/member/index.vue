@@ -1,29 +1,65 @@
 <template>
     <pa-container
         is-page
+        disable-share
         background="#FFAA2C"
     >
         <view class="pa-mine">
             <view class="pa-mine-header">
                 <pa-navbar>我的</pa-navbar>
-            </view>
-            <view class="pa-mine-body">
                 <view
-                    class="pa-mine-body-avatar"
+                    class="pa-mine-header-avatar"
+                    @click="$Router.push({ name: 'memberConfig' })"
                 >
                     <image
                         mode="aspectFill"
-                        class="pa-mine-body-avatar-image"
+                        class="pa-mine-header-avatar-image"
                         :src="avatar"
-                        @click="$Router.push({ name: 'memberConfig' })"
                     />
                     <view
-                        class="pa-mine-body-avatar-name"
+                        class="pa-mine-header-avatar-name"
                     >
-                        <view class="pa-mine-body-avatar-name-username">{{ profileData.username || '匿名猫猫' }}</view>
+                        <view class="pa-mine-header-avatar-name-username">{{ profileData.username || '匿名猫猫' }}</view>
                     </view>
+                    <view style="flex:1" />
+                    <uni-icons color="#fff" type="settings-filled" size="30" />
+                </view>
+                <view class="pa-mine-header-tabs">
+                    <pa-tabs
+                        v-model="tab"
+                        :tabs="tabs"
+                        @change="handleTabChange"
+                    />
                 </view>
             </view>
+            <view class="pa-mine-body">
+                <pa-empty v-if="list.length === 0" />
+                <pa-water-fall v-if="tab === 0" :data="list">
+                    <template #default="{ item }">
+                        <article-card
+                            :data="item"
+                            class="pa-home-page-body-item"
+                        />
+                    </template>
+                </pa-water-fall>
+                <pa-water-fall v-if="tab === 1" :data="list">
+                    <template #default="{ item }">
+                        <article-card
+                            :data="item"
+                            class="pa-home-page-body-item"
+                        />
+                    </template>
+                </pa-water-fall>
+                <pa-water-fall v-if="tab === 2" :data="list">
+                    <template #default="{ item }">
+                        <article-card
+                            :data="item"
+                            class="pa-home-page-body-item"
+                        />
+                    </template>
+                </pa-water-fall>
+            </view>
+            <pa-logo color="#fff" double-bottom-padding />
         </view>
     </pa-container>
 </template>
@@ -31,19 +67,142 @@
 <script>
 import { getRandomCover } from '@/utils'
 import { getThumb } from '@/utils/obs'
+import { articleModel, userModel } from '@/api'
+import { mapGetters } from 'vuex'
+import articleCard from '@/components/business/articleCard.vue'
+import pagination from '@/mixin/pagination'
+import { uniqBy } from 'lodash'
 export default {
+    components: { articleCard },
+    mixins: [pagination],
     data: function() {
         return {
-            profileData: {}
+            profileData: {},
+            tab: 0,
+            tabs: ['小作文', '点赞', '收藏', '评论', '评论 ❤️'],
+            list: []
         }
     },
     computed: {
+        ...mapGetters(['cid']),
         avatar() {
             return this.profileData.avatar?.fileUrl || getRandomCover()
         }
     },
+    mounted() {
+        this.init()
+    },
+    onPullDownRefresh() {
+        this.init()
+    },
+    onReachBottom() {
+        if (!this.noMore) {
+            this.getData()
+        }
+    },
     methods: {
-        getThumb
+        getThumb,
+        init() {
+            this.list = []
+            this.getProfile()
+            this.getData()
+        },
+        getProfile() {
+            userModel.info(this.cid).then(res => {
+                if (res.status === 0) {
+                    this.profileData = res.data
+                    this.setForm()
+                } else {
+                    this.$toast({ title: res.message })
+                }
+            })
+        },
+        handleTabChange(tab) {
+            this.tab = tab
+            this.initPagination()
+            this.list = []
+            this.getData()
+        },
+        getData() {
+            switch (this.tab) {
+                case 0:
+                    this.getArticle()
+                    break
+                case 1:
+                    this.getLikeArticles()
+                    break
+                case 2:
+                    this.getCollectArticles()
+                    break
+            }
+        },
+        getArticle() {
+            const params = {
+                pageNo: this.pageNo,
+                pageSize: this.pageSize,
+                cid: this.cid
+            }
+            this.$message.loading()
+            articleModel.list(params).then(res => {
+                if (res.status === 0) {
+                    if (res.data.list && res.data.list.length) {
+                        this.list = uniqBy([... this.list, ... res.data.list], 'articleId')
+                        this.pageNo++
+                    } else {
+                        this.noMore = true
+                    }
+                } else {
+                    this.$toast({ title: res.message })
+                }
+            }).finally(() => {
+                this.$message.hide()
+                uni.stopPullDownRefresh()
+            })
+        },
+        getLikeArticles() {
+            const params = {
+                pageNo: this.pageNo,
+                pageSize: this.pageSize,
+            }
+            this.$message.loading()
+            userModel.myLikeArticles(params).then(res => {
+                if (res.status === 0) {
+                    if (res.data.list && res.data.list.length) {
+                        this.list = uniqBy([... this.list, ... res.data.list], 'articleId')
+                        this.pageNo++
+                    } else {
+                        this.noMore = true
+                    }
+                } else {
+                    this.$toast({ title: res.message })
+                }
+            }).finally(() => {
+                this.$message.hide()
+                uni.stopPullDownRefresh()
+            })
+        },
+        getCollectArticles() {
+            const params = {
+                pageNo: this.pageNo,
+                pageSize: this.pageSize,
+            }
+            this.$message.loading()
+            userModel.myCollectArticles(params).then(res => {
+                if (res.status === 0) {
+                    if (res.data.list && res.data.list.length) {
+                        this.list = uniqBy([... this.list, ... res.data.list], 'articleId')
+                        this.pageNo++
+                    } else {
+                        this.noMore = true
+                    }
+                } else {
+                    this.$toast({ title: res.message })
+                }
+            }).finally(() => {
+                this.$message.hide()
+                uni.stopPullDownRefresh()
+            })
+        }
     }
 }
 </script>
@@ -55,14 +214,12 @@ export default {
         position: sticky;
         top: 0;
         background: #FFAA2C;
-    }
-    &-body{
-        margin-top: 20rpx;
         &-avatar{
             display: flex;
             align-items: center;
-            padding-left: 40rpx;
+            padding:0 40rpx;
             margin-bottom: 48rpx;
+            margin-top: 60rpx;
             &-image{
                 width: 96rpx;
                 height: 96rpx;
@@ -74,7 +231,7 @@ export default {
                 &-username{
                     font-size: 30rpx;
                     font-weight: 500;
-                    color: #332C22;
+                    color: #fff;
                     line-height: 42rpx;
                 }
                 &-sign{
@@ -99,6 +256,18 @@ export default {
                 }
             }
         }
+        &-tabs{
+            overflow: hidden;
+            border-top-left-radius: 36rpx;
+            border-top-right-radius: 36rpx;
+        }
+    }
+    &-body{
+        min-height: 30vh;
+        background: #f5f5f5;
+        border-bottom-left-radius: 36rpx;
+        border-bottom-right-radius: 36rpx;
+        padding:16rpx;
     }
 }
 </style>

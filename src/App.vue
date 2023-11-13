@@ -10,6 +10,8 @@ export default Vue.extend({
         this.$store.dispatch('setObsInfo')
         this.$store.dispatch('setUserInfo')
         getTokenInterval()
+        this.$store.dispatch('checkNewNoticeIntervel')
+        this.$store.dispatch('getNoticeAmountInterval')
     },
     onShow() {
         setTimeout(() => {

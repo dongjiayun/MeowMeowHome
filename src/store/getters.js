@@ -13,6 +13,8 @@ const getters = {
     statusBarHeight: state => state.app.statusBarHeight,
     popupMask: state => state.app.popupMask,
     disablePageScroll: state => state.app.disablePageScroll,
+    // business
+    noticeAmount: state => state.business.noticeAmount
 }
 
 export default getters

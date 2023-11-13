@@ -57,5 +57,29 @@ export const userModel = {
     },
     update(data) {
         return http.put('/user', data)
+    },
+    myLikeArticles(data) {
+        return http.post('/user/myLikeArticles', data)
+    },
+    myCollectArticles(data) {
+        return http.post('/user/myCollectArticles', data)
+    },
+    checkFollow(data) {
+        return http.post('/user/checkFollow', data)
+    },
+    follow(cid) {
+        return http.post(`/user/follow/${cid}`)
+    },
+    unFollow(cid) {
+        return http.delete(`/user/follow/${cid}`)
+    }
+}
+
+export const noticeModel = {
+    list(data) {
+        return http.post('/notice/get', data)
+    },
+    amount() {
+        return http.get(`/notice/amount`)
     }
 }

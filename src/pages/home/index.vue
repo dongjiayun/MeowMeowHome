@@ -67,14 +67,14 @@ export default {
         getData() {
             const params = {
                 pageNo: this.pageNo,
-                pageIndex: this.pageIndex,
+                pageIndex: this.pageNo,
             }
             this.$message.loading()
             articleModel.list(params).then(res => {
                 if (res.status === 0) {
                     if (res.data.list && res.data.list.length) {
                         this.list = uniqBy([... this.list, ... res.data.list], 'articleId')
-                        this.pageIndex++
+                        this.pageNo++
                     } else {
                         this.noMore = true
                     }

@@ -1,7 +1,7 @@
 <template>
     <view class="pa-logo" :class="{ doubleBottomPadding }">
         <!--        <view v-if="hideLogo" class="pa-logo-image" />-->
-        <view v-if="!hideLogo" class="pa-logo-slogan">Meow 喵喵喵 Meow</view>
+        <view v-if="!hideLogo" :style="{ color }" class="pa-logo-slogan">Meow 喵喵喵 Meow</view>
     </view>
 </template>
 
@@ -10,7 +10,11 @@ export default {
     name: 'PaLogo',
     props: {
         doubleBottomPadding: Boolean,
-        hideLogo: Boolean
+        hideLogo: Boolean,
+        color: {
+            type: String,
+            default: '#ddd'
+        }
     }
 }
 </script>
