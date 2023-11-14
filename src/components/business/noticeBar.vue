@@ -20,6 +20,8 @@
 <script>
 import { mapGetters } from 'vuex'
 import { getRandomCover } from '@/utils'
+import { noticeJump } from '@/utils/business'
+import { noticeModel } from '@/api'
 
 export default {
     props: {
@@ -50,17 +52,18 @@ export default {
         },
         handleClick() {
             this.active = false
-            switch (this.notice.noticeType) {
-                case 'collectArticle':
-                case 'likeArticle':
-                    this.$Router.push({
-                        name: 'articleDetail',
-                        query: {
-                            articleId: this.notice.noticeCode
-                        }
-                    })
-                    break
-            }
+            noticeJump(this.notice)
+            this.handleRead()
+        },
+        handleRead() {
+            this.$message.loading()
+            noticeModel.read(this.notice.noticeId).then(res => {
+                if (res.status === 0) {
+                    this.$emit('read', this.notice.noticeId)
+                }
+            }).finally(() => {
+                this.$message.hide()
+            })
         }
     }
 }

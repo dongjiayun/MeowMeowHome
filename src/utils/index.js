@@ -2,8 +2,6 @@ import Vue from 'vue'
 import store from '@/store'
 import dict from '@/config/dict'
 import { floor, round, random } from 'lodash'
-import { getCouponPackage } from '@/utils/mall'
-import Config from '@/config'
 import dayjs from 'dayjs'
 const duration = require('dayjs/plugin/duration')
 dayjs.extend(duration)
@@ -405,96 +403,6 @@ export const px2rpx = (px = '0px', hasUnit = true) => {
     const _px = hasUnit ? px.replace('px', '') : px
     const rpx = Number(_px) * 2 + 4
     return hasUnit ? `${rpx}rpx` : rpx
-}
-
-export const handleJumpByJumpType = ({ jumpType, jumpValue }) => {
-    if (jumpValue.includes('__JUMP_PATH__')) {
-        const [_, path] = jumpValue.split('|') //eslint-disable-line
-        return Vue.prototype.$Router.push(path)
-    }
-    if (jumpType === 'COUPON') {
-        return Vue.prototype.$Router.push({ name: 'getCoupon', query: { couponId: jumpValue }})
-    }
-    if (jumpType === 'TOPIC') {
-        return Vue.prototype.$Router.push({ name: 'topic', query: { id: jumpValue }})
-    }
-    if (jumpType === 'PRODUCT_DETAIL') {
-        return Vue.prototype.$Router.push({ name: 'goodsDetail', query: { productId: jumpValue }})
-    }
-    if (jumpType === 'SECKILL') {
-        const [skuNo, productId, couponId, activityId] = jumpValue.split('|')
-        return Vue.prototype.$Router.push({ name: 'goodsDetail', query: {
-            skuNo, productId, couponId, activityId
-        }})
-    }
-    if (jumpType === 'SECKILL_LIST') {
-        return Vue.prototype.$Router.push({ name: 'secKill', query: { activityId: jumpValue }})
-    }
-    if (jumpType === 'ACTIVITY') {
-        return Vue.prototype.$Router.push({ name: 'activityGoodsList', query: { id: jumpValue, IFA: '1' }})
-    }
-    if (jumpType === 'COUPON_PACKAGE') {
-        return getCouponPackage(jumpValue)
-    }
-    if (jumpType === 'COUPON_PACKAGE_ACTIVITY') {
-        return Vue.prototype.$Router.push({ name: 'getCouponPackage', query: { id: jumpValue }})
-    }
-    if (jumpType === 'MINIPROGRAM') {
-        const [appId, path, extraData] = jumpValue.split('|')
-        const _extraData = extraData?.split(';') || []
-        const extraDataObj = {}
-        _extraData.forEach(i => {
-            const [key, value] = i.split('=')
-            extraDataObj[key] = value
-        })
-        const envVersionMap = {
-            'dev': 'trial',
-            'qa': 'trial',
-            'prod': 'release',
-        }
-        const envVersion = envVersionMap[Config.env]
-        return uni.navigateToMiniProgram({
-            appId,
-            path,
-            extraData: extraDataObj,
-            envVersion
-        })
-    }
-    if (jumpType === 'ACTIVITY_SELF_PICKUP') {
-        return Vue.prototype.$Router.push({ name: 'activityGoodsListSelfPickup', query: { id: jumpValue }})
-    }
-    if (jumpType === 'EMBEDDED_MINIPROGRAM') {
-        const [appId, path, extraData] = jumpValue.split('|')
-        const _extraData = extraData?.split(';') || []
-        const extraDataObj = {}
-        _extraData.forEach(i => {
-            const [key, value] = i.split('=')
-            extraDataObj[key] = value
-        })
-        const envVersionMap = {
-            'dev': 'trial',
-            'qa': 'trial',
-            'prod': 'release',
-        }
-        const envVersion = envVersionMap[Config.env]
-        return uni.openEmbeddedMiniProgram({
-            appId,
-            path,
-            extraData: extraDataObj,
-            envVersion,
-            fail: (e) => {
-                uni.openEmbeddedMiniProgram({
-                    appId,
-                    path,
-                    extraData: extraDataObj,
-                    envVersion,
-                })
-            }
-        })
-    }
-    if (jumpType === 'NEW_USER') {
-        return Vue.prototype.$Router.push({ name: 'newUser', query: { id: jumpValue }})
-    }
 }
 
 export const getAge = birthday => {

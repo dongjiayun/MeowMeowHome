@@ -87,5 +87,11 @@ export const noticeModel = {
     },
     amount() {
         return http.get(`/notice/amount`)
+    },
+    read(noticeId) {
+        return http.put(`/notice/${noticeId}`)
+    },
+    readAll() {
+        return http.put(`/notice/readAll`)
     }
 }
