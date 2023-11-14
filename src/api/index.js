@@ -72,6 +72,12 @@ export const userModel = {
     },
     unFollow(cid) {
         return http.delete(`/user/follow/${cid}`)
+    },
+    getFollows(data) {
+        return http.post('/user/getFollows', data)
+    },
+    getFollowers(data) {
+        return http.post('/user/getFollowers', data)
     }
 }
 

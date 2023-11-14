@@ -99,6 +99,13 @@ const common = [
     }
 ]
 
+const user = [
+    {
+        path: 'pages/user/index',
+        name: 'user'
+    }
+]
+
 const routes = [
     ...base,
     ...mall,
@@ -106,6 +113,7 @@ const routes = [
     ...mine,
     ...article,
     ...common,
+    ...user,
 ]
 
 export default routes

@@ -1,6 +1,7 @@
 import { noticeModel } from '@/api'
 import { toast } from '@/utils'
 import { Storage } from '@/utils/storage'
+import user from '@/store/modules/user'
 
 const business = {
     state: {
@@ -15,6 +16,7 @@ const business = {
     },
     actions: {
         getNoticeAmount({ commit }) {
+            if (!user.state.token) return
             return noticeModel.amount().then(res => {
                 if (res.status === 0) {
                     commit('SET_NOTICE_AMOUNT', res.data)
@@ -24,6 +26,7 @@ const business = {
             })
         },
         getNewNotice() {
+            if (!user.state.token) return
             const params = {
                 pageNo: 1,
                 pageSize: 1

@@ -119,6 +119,18 @@
                     }
                 }
             ]
+        },
+        {
+            "root": "pages/user",
+            "pages": [
+                {
+                    "path": "index",
+                    "style": {
+                        "backgroundColor": "#F5F5F5",
+                        "enablePullDownRefresh": true
+                    }
+                }
+            ]
         }
     ],
 	"globalStyle": {

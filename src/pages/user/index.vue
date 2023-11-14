@@ -9,7 +9,6 @@
                 <pa-navbar>我的</pa-navbar>
                 <view
                     class="pa-mine-header-avatar"
-                    @click="$Router.push({ name: 'memberConfig' })"
                 >
                     <image
                         mode="aspectFill"
@@ -21,8 +20,6 @@
                     >
                         <view class="pa-mine-header-avatar-name-username">{{ profileData.username || '匿名猫猫' }}</view>
                     </view>
-                    <view style="flex:1" />
-                    <uni-icons color="#fff" type="settings-filled" size="30" />
                 </view>
                 <view class="pa-mine-header-tabs">
                     <pa-tabs
@@ -42,30 +39,14 @@
                         />
                     </template>
                 </pa-water-fall>
-                <pa-water-fall v-if="tab === 1" :data="list">
-                    <template #default="{ item }">
-                        <article-card
-                            :data="item"
-                            class="pa-home-page-body-item"
-                        />
-                    </template>
-                </pa-water-fall>
-                <pa-water-fall v-if="tab === 2" :data="list">
-                    <template #default="{ item }">
-                        <article-card
-                            :data="item"
-                            class="pa-home-page-body-item"
-                        />
-                    </template>
-                </pa-water-fall>
-                <view v-if="tab === 3">
+                <view v-if="tab === 1">
                     <user-card
                         v-for="(item,index) in list"
                         :key="index"
                         :data="item"
                     />
                 </view>
-                <view v-if="tab === 4">
+                <view v-if="tab === 2">
                     <user-card
                         v-for="(item,index) in list"
                         :key="index"
@@ -92,14 +73,17 @@ export default {
     mixins: [pagination],
     data: function() {
         return {
+            cid: undefined,
             profileData: {},
             tab: 0,
-            tabs: ['小作文', '点赞', '收藏', '关注', '粉丝', '我的评论', '我点赞的评论️'],
+            tabs: ['小作文', '关注', '粉丝'],
             list: []
         }
     },
+    onLoad({ cid }) {
+        this.cid = cid
+    },
     computed: {
-        ...mapGetters(['cid']),
         avatar() {
             return this.profileData.avatar?.fileUrl || getRandomCover()
         }
@@ -144,15 +128,9 @@ export default {
                     this.getArticle()
                     break
                 case 1:
-                    this.getLikeArticles()
-                    break
-                case 2:
-                    this.getCollectArticles()
-                    break
-                case 3:
                     this.getFollows()
                     break
-                case 4:
+                case 2:
                     this.getFollowers()
                     break
             }
@@ -180,54 +158,11 @@ export default {
                 uni.stopPullDownRefresh()
             })
         },
-        getLikeArticles() {
-            const params = {
-                pageNo: this.pageNo,
-                pageSize: this.pageSize,
-            }
-            this.$message.loading()
-            userModel.myLikeArticles(params).then(res => {
-                if (res.status === 0) {
-                    if (res.data.list && res.data.list.length) {
-                        this.list = uniqBy([... this.list, ... res.data.list], 'articleId')
-                        this.pageNo++
-                    } else {
-                        this.noMore = true
-                    }
-                } else {
-                    this.$toast({ title: res.message })
-                }
-            }).finally(() => {
-                this.$message.hide()
-                uni.stopPullDownRefresh()
-            })
-        },
-        getCollectArticles() {
-            const params = {
-                pageNo: this.pageNo,
-                pageSize: this.pageSize,
-            }
-            this.$message.loading()
-            userModel.myCollectArticles(params).then(res => {
-                if (res.status === 0) {
-                    if (res.data.list && res.data.list.length) {
-                        this.list = uniqBy([... this.list, ... res.data.list], 'articleId')
-                        this.pageNo++
-                    } else {
-                        this.noMore = true
-                    }
-                } else {
-                    this.$toast({ title: res.message })
-                }
-            }).finally(() => {
-                this.$message.hide()
-                uni.stopPullDownRefresh()
-            })
-        },
         getFollows() {
             const params = {
                 pageNo: this.pageNo,
                 pageSize: this.pageSize,
+                cid: this.cid
             }
             this.$message.loading()
             userModel.getFollows(params).then(res => {
@@ -250,6 +185,7 @@ export default {
             const params = {
                 pageNo: this.pageNo,
                 pageSize: this.pageSize,
+                cid: this.cid
             }
             this.$message.loading()
             userModel.getFollowers(params).then(res => {

@@ -91,6 +91,7 @@ export default {
     position: relative;
     background: #FFFFFF;
     width: 352rpx;
+    box-shadow:  0 0 16rpx 0 rgba(0, 0, 0, 0.1);
     &.stableSizeSmall{
         width: 230rpx;
     }
