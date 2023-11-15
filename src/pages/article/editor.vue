@@ -11,7 +11,6 @@
                 />
                 <mp-editor
                     ref="article"
-                    :content="content"
                     domain="https://qa-res.ipetapi.com"
                     editable
                 />
@@ -31,6 +30,7 @@ export default {
     components: { mpEditor },
     data() {
         return {
+            data: {},
             articleId: '',
             content: '',
             forms: [
@@ -68,7 +68,30 @@ export default {
             return !!this.articleId
         }
     },
+    onShow() {
+        this.init()
+    },
     methods: {
+        init() {
+            if (this.isEdit) {
+                this.getDetail()
+            }
+        },
+        getDetail() {
+            articleModel.get(this.articleId).then(res => {
+                if (res.status === 0) {
+                    this.data = res.data
+                    const { title, covers, content } = this.data
+                    this.$nextTick(() => {
+                        this.$refs.form.init({
+                            title,
+                            covers: covers.map(i => i.fileUrl)
+                        })
+                        this.$refs.article.init(content)
+                    })
+                }
+            })
+        },
         async handleSubmit() {
             const { title, covers } = await this.$refs.form.validate()
             this.$refs.article.save(content => {
@@ -77,11 +100,14 @@ export default {
                     title,
                     covers: covers.map(i => ({ fileUrl: i }))
                 }
+                if (this.isEdit) {
+                    params.articleId = this.articleId
+                }
                 this.$message.loading()
-                articleModel.create(params).then(res => {
+                articleModel[this.isEdit ? 'edit' : 'create'](params).then(res => {
                     if (res.status === 0) {
                         const articleId = res.data
-                        this.$toast({ title: '发布成功' })
+                        this.$toast({ title: this.isEdit ? '修改成功' : '发布成功' })
                         setTimeout(() => {
                             this.$Router.redirectTo({
                                 name: 'articleDetail',

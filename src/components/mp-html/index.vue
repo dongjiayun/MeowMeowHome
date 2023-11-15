@@ -72,19 +72,26 @@
                 </view>
                 <view
                     class="weui-half-screen-dialog__bd"
-                    :style="'height:' + (dialog == 'emoji' ? '105' : '150') + 'px; padding-bottom: 30px;'"
+                    :style="'height:' + (dialog === 'emoji' ? '105' : '150') + 'px; padding-bottom: 30px;'"
                 >
                     <view
                         v-for="(line, index) in emojis"
-                        v-if="dialog == 'emoji'"
+                        :key="index"
                         style="display: flex; font-size: 20px; line-height: 35px"
                     >
-                        <view v-for="(item, index) in line" style="flex:1" :data-emoji="item" @tap="insertEmoji">{{ item }}
-                        </view>
+                        <template v-if="dialog === 'emoji'">
+                            <view v-for="(item, inx) in line" :key="inx" style="flex:1" :data-emoji="item" @tap="insertEmoji">{{ item }}</view>
+                        </template>
                     </view>
-                    <view v-for="(item, index) in templates" v-if="dialog == 'template'" @tap="closeDialog">
-                        <rich-text :nodes="item" data-method="insertHtml" :data-param="item" @tap="edit" />
-                        <view style="border-top:1px dashed gray; width: 80%; height: 0; margin: 20px auto" />
+                    <view
+                        v-for="(item, index) in templates"
+                        :key="index"
+                        @tap="closeDialog"
+                    >
+                        <template v-if="dialog === 'template'">
+                            <rich-text :nodes="item" data-method="insertHtml" :data-param="item" @tap="edit" />
+                            <view style="border-top:1px dashed gray; width: 80%; height: 0; margin: 20px auto" />
+                        </template>
                     </view>
                 </view>
             </view>
@@ -205,6 +212,13 @@ export default {
         }
     },
     methods: {
+        init(content) {
+            this.$nextTick(() => {
+                setTimeout(() => {
+                    this.$refs.article.setContent(content)
+                }, 500)
+            })
+        },
         async uploadHandle(file) {
             let files = []
             const loads = []

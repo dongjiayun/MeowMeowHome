@@ -46,17 +46,17 @@
                         <text>{{ collectCount }}</text>
                         <uni-icons color="FFAA2C" type="star" size="24" />
                     </view>
-                    <button class="pa-mall-button" @click="handleDelete">
-                        <text>删除</text>
-                        <uni-icons type="trash" size="24" />
-                    </button>
-                    <button v-if="isPrivate" class="pa-mall-button" @click="handlePublic">
-                        <text>设为公开</text>
+                    <button v-if="isPrivate" class="pa-mall-button round" @click="handlePublic">
                         <uni-icons type="eye" size="24" />
                     </button>
-                    <button v-else class="pa-mall-button-plain" @click="handlePrivate">
-                        <text>设为私密</text>
+                    <button v-else class="pa-mall-button-plain round" @click="handlePrivate">
                         <uni-icons type="eye-slash" size="24" />
+                    </button>
+                    <button class="pa-mall-button round" @click="handleDelete">
+                        <uni-icons type="trash" size="24" />
+                    </button>
+                    <button class="pa-mall-button round" @click="handleEdit">
+                        <uni-icons type="compose" size="24" />
                     </button>
                 </view>
                 <view v-else class="pa-article-detail-footer">
@@ -338,6 +338,14 @@ export default {
                 }
             }).finally(() => {
                 this.$message.hide()
+            })
+        },
+        handleEdit() {
+            this.$Router.push({
+                name: 'articleEditor',
+                query: {
+                    articleId: this.articleId
+                }
             })
         }
     }

@@ -1,109 +1,109 @@
 <template>
-  <view @tap="nodeTap" :id="attrs.id" :class="'_block _'+name+' '+attrs.class" :style="(ctrl.root?'border:1px solid black;padding:5px;display:block;':'')+attrs.style">
-    <block v-for="(n, i) in childs" v-bind:key="i">
-      <!-- 图片 -->
-      <!-- 占位图 -->
-      <image v-if="n.name==='img'&&!n.t&&((opts[1]&&!ctrl[i])||ctrl[i]<0)" class="_img" :style="n.attrs.style" :src="ctrl[i]<0?opts[2]:opts[1]" mode="widthFix" />
-      <!-- 显示图片 -->
-      <!-- #ifdef H5 || (APP-PLUS && VUE2) -->
-      <img v-if="n.name==='img'" :id="n.attrs.id" :class="'_img '+n.attrs.class" :style="(ctrl['e'+i]?'border:1px dashed black;padding:3px;':'')+(ctrl[i]===-1?'display:none;':'')+n.attrs.style" :src="n.attrs.src||(ctrl.load?n.attrs['data-src']:'')" :data-i="i" @load="imgLoad" @error="mediaError" @tap.stop="imgTap" @longpress="imgLongTap" />
-      <!-- #endif -->
-      <!-- #ifndef H5 || (APP-PLUS && VUE2) -->
-      <!-- 表格中的图片，使用 rich-text 防止大小不正确 -->
-      <rich-text v-if="n.name==='img'&&n.t" :style="'display:'+n.t" :nodes="[{attrs:{style:n.attrs.style,src:n.attrs.src},name:'img'}]" :data-i="i" @tap.stop="imgTap" />
-      <!-- #endif -->
-      <!-- #ifndef H5 || APP-PLUS -->
-      <image v-else-if="n.name==='img'" :id="n.attrs.id||('n'+i)" :class="'_img '+n.attrs.class" :style="(ctrl['e'+i]?'border:1px dashed black;padding:3px;':'')+(ctrl[i]===-1?'display:none;':'')+'width:'+(ctrl[i]||1)+'px;height:'+(ctrl['h'+i]||1)+'px;'+n.attrs.style" :src="n.attrs.src" :mode="!n.h?'widthFix':(!n.w?'heightFix':'')" :lazy-load="opts[0]" :webp="n.webp" :show-menu-by-longpress="!opts[5]&&opts[3]&&!n.attrs.ignore" :image-menu-prevent="opts[5]||!opts[3]||n.attrs.ignore" :data-i="i" @load="imgLoad" @error="mediaError" @tap.stop="imgTap" @longpress="imgLongTap" />
-      <!-- #endif -->
-      <!-- #ifdef APP-PLUS && VUE3 -->
-      <image v-else-if="n.name==='img'" :id="n.attrs.id" :class="'_img '+n.attrs.class" :style="(ctrl['e'+i]?'border:1px dashed black;padding:3px;':'')+(ctrl[i]===-1?'display:none;':'')+'width:'+(ctrl[i]||1)+'px;'+n.attrs.style" :src="n.attrs.src||(ctrl.load?n.attrs['data-src']:'')" :mode="!n.h?'widthFix':(!n.w?'heightFix':'')" :data-i="i" @load="imgLoad" @error="mediaError" @tap.stop="imgTap" @longpress="imgLongTap" />
-      <!-- #endif -->
-      <!-- 文本 -->
-      <text v-else-if="n.type==='text'&&!ctrl['e'+i]" :data-i="i" :user-select="opts[4]" :decode="!opts[5]" @tap="editStart">{{n.text}}
-        <text v-if="!n.text" style="color:gray">{{opts[6]||'请输入'}}</text>
-      </text>
-      <text v-else-if="n.type==='text'&&ctrl['e'+i]===1" :data-i="i" style="border:1px dashed black;min-width:50px;width:auto;padding:5px;display:block" @tap.stop="editStart">{{n.text}}
-        <text v-if="!n.text" style="color:gray">{{opts[6]||'请输入'}}</text>
-      </text>
-      <textarea v-else-if="n.type==='text'" style="border:1px dashed black;min-width:50px;width:auto;padding:5px" auto-height maxlength="-1" :focus="ctrl['e'+i]===3" :value="n.text" :data-i="i" @input="editInput" @blur="editEnd" />
-      <text v-else-if="n.name==='br'">\n</text>
-      <!-- 链接 -->
-      <view v-else-if="n.name==='a'" :id="n.attrs.id" :class="(n.attrs.href?'_a ':'')+n.attrs.class" hover-class="_hover" :style="'display:inline;'+n.attrs.style" :data-i="i" @tap.stop="linkTap">
-        <node name="span" :childs="n.children" :opts="[opts[0],opts[1],opts[2],opts[3],opts[4],opts[5],opts[6],opts[7]+'.'+i+'.children']" style="display:inherit" />
-      </view>
-      <!-- 视频 -->
-      <!-- #ifdef APP-PLUS -->
-      <view v-else-if="n.html" :data-i="i" @tap="mediaTap" :id="n.attrs.id" :class="'_video '+n.attrs.class" :style="n.attrs.style" v-html="n.html" @vplay.stop="play" />
-      <!-- #endif -->
-      <!-- #ifndef APP-PLUS -->
-      <video :show-center-play-btn="!opts[5]" @tap="mediaTap" v-else-if="n.name==='video'" :id="n.attrs.id" :class="n.attrs.class" :style="n.attrs.style" :autoplay="n.attrs.autoplay" :controls="n.attrs.controls" :loop="n.attrs.loop" :muted="n.attrs.muted" :object-fit="n.attrs['object-fit']" :poster="n.attrs.poster" :src="n.src[ctrl[i]||0]" :data-i="i" @play="play" @error="mediaError" />
-      <!-- #endif -->
-      <!-- #ifdef H5 || APP-PLUS -->
-      <iframe v-else-if="n.name==='iframe'" :style="n.attrs.style" :allowfullscreen="n.attrs.allowfullscreen" :frameborder="n.attrs.frameborder" :src="n.attrs.src" />
-      <embed v-else-if="n.name==='embed'" :style="n.attrs.style" :src="n.attrs.src" />
-      <!-- #endif -->
-      <!-- #ifndef MP-TOUTIAO || ((H5 || APP-PLUS) && VUE3) -->
-      <!-- 音频 -->
-      <audio @tap="mediaTap" v-else-if="n.name==='audio'" :id="n.attrs.id" :class="n.attrs.class" :style="n.attrs.style" :author="n.attrs.author" :controls="n.attrs.controls" :loop="n.attrs.loop" :name="n.attrs.name" :poster="n.attrs.poster" :src="n.src[ctrl[i]||0]" :data-i="i" @play="play" @error="mediaError" />
-      <!-- #endif -->
-      <view v-else-if="(n.name==='table'&&(n.c||opts[5]))||n.name==='li'" :id="n.attrs.id" :class="'_'+n.name+' '+n.attrs.class" :style="n.attrs.style">
-        <node v-if="n.name==='li'" :childs="n.children" :opts="[opts[0],opts[1],opts[2],opts[3],opts[4],opts[5],opts[6],opts[7]+'.'+i+'.children']" />
-        <view v-else v-for="(tbody, x) in n.children" v-bind:key="x" :class="'_'+tbody.name+' '+tbody.attrs.class" :style="tbody.attrs.style">
-          <node v-if="tbody.name==='td'||tbody.name==='th'" :childs="tbody.children" :opts="[opts[0],opts[1],opts[2],opts[3],opts[4],opts[5],opts[6],opts[7]+'.'+i+'.children.'+x+'.children']" />
-          <block v-else v-for="(tr, y) in tbody.children" v-bind:key="y">
-            <view v-if="tr.name==='td'||tr.name==='th'" :class="'_'+tr.name+' '+tr.attrs.class" :style="tr.attrs.style">
-              <node :childs="tr.children" :opts="[opts[0],opts[1],opts[2],opts[3],opts[4],opts[5],opts[6],opts[7]+'.'+i+'.children.'+x+'.children.'+y+'.children']" />
+    <view :id="attrs.id" :class="'_block _' + name + ' ' + attrs.class" :style="(ctrl.root ? 'border:1px solid black;padding:5px;display:block;' : '') + attrs.style" @tap="nodeTap">
+        <block v-for="(n, i) in childs" :key="i">
+            <!-- 图片 -->
+            <!-- 占位图 -->
+            <image v-if="n.name === 'img' && !n.t && ((opts[1] && !ctrl[i]) || ctrl[i] < 0)" class="_img" :style="n.attrs.style" :src="ctrl[i] < 0 ? opts[2] : opts[1]" mode="widthFix" />
+            <!-- 显示图片 -->
+            <!-- #ifdef H5 || (APP-PLUS && VUE2) -->
+            <img v-if="n.name === 'img'" :id="n.attrs.id" :class="'_img ' + n.attrs.class" :style="(ctrl['e' + i] ? 'border:1px dashed black;padding:3px;' : '') + (ctrl[i] === -1 ? 'display:none;' : '') + n.attrs.style" :src="n.attrs.src || (ctrl.load ? n.attrs['data-src'] : '')" :data-i="i" @load="imgLoad" @error="mediaError" @tap.stop="imgTap" @longpress="imgLongTap" />
+            <!-- #endif -->
+            <!-- #ifndef H5 || (APP-PLUS && VUE2) -->
+            <!-- 表格中的图片，使用 rich-text 防止大小不正确 -->
+            <rich-text v-if="n.name === 'img' && n.t" :style="'display:' + n.t" :nodes="[{ attrs: { style: n.attrs.style,src: n.attrs.src },name: 'img' }]" :data-i="i" @tap.stop="imgTap" />
+            <!-- #endif -->
+            <!-- #ifndef H5 || APP-PLUS -->
+            <image v-else-if="n.name === 'img'" :id="n.attrs.id || ('n' + i)" :class="'_img ' + n.attrs.class" :style="(ctrl['e' + i] ? 'border:1px dashed black;padding:3px;' : '') + (ctrl[i] === -1 ? 'display:none;' : '') + 'width:' + (ctrl[i] || 1) + 'px;height:' + (ctrl['h' + i] || 1) + 'px;' + n.attrs.style" :src="n.attrs.src" :mode="!n.h ? 'widthFix' : (!n.w ? 'heightFix' : '')" :lazy-load="opts[0]" :webp="n.webp" :show-menu-by-longpress="!opts[5] && opts[3] && !n.attrs.ignore" :image-menu-prevent="opts[5] || !opts[3] || n.attrs.ignore" :data-i="i" @load="imgLoad" @error="mediaError" @tap.stop="imgTap" @longpress="imgLongTap" />
+            <!-- #endif -->
+            <!-- #ifdef APP-PLUS && VUE3 -->
+            <image v-else-if="n.name === 'img'" :id="n.attrs.id" :class="'_img ' + n.attrs.class" :style="(ctrl['e' + i] ? 'border:1px dashed black;padding:3px;' : '') + (ctrl[i] === -1 ? 'display:none;' : '') + 'width:' + (ctrl[i] || 1) + 'px;' + n.attrs.style" :src="n.attrs.src || (ctrl.load ? n.attrs['data-src'] : '')" :mode="!n.h ? 'widthFix' : (!n.w ? 'heightFix' : '')" :data-i="i" @load="imgLoad" @error="mediaError" @tap.stop="imgTap" @longpress="imgLongTap" />
+            <!-- #endif -->
+            <!-- 文本 -->
+            <text v-else-if="n.type === 'text' && !ctrl['e' + i]" :data-i="i" :user-select="opts[4]" :decode="!opts[5]" @tap="editStart">{{ n.text }}
+                <text v-if="!n.text" style="color:gray">{{ opts[6] || '请输入' }}</text>
+            </text>
+            <text v-else-if="n.type === 'text' && ctrl['e' + i] === 1" :data-i="i" style="border:1px dashed black;min-width:50px;width:auto;padding:5px;display:block" @tap.stop="editStart">{{ n.text }}
+                <text v-if="!n.text" style="color:gray">{{ opts[6] || '请输入' }}</text>
+            </text>
+            <textarea v-else-if="n.type === 'text'" style="border:1px dashed black;min-width:50px;width:auto;padding:5px" auto-height maxlength="-1" :focus="ctrl['e' + i] === 3" :value="n.text" :data-i="i" @input="editInput" @blur="editEnd" />
+            <text v-else-if="n.name === 'br'">\n</text>
+            <!-- 链接 -->
+            <view v-else-if="n.name === 'a'" :id="n.attrs.id" :class="(n.attrs.href ? '_a ' : '') + n.attrs.class" hover-class="_hover" :style="'display:inline;' + n.attrs.style" :data-i="i" @tap.stop="linkTap">
+                <node name="span" :childs="n.children" :opts="[opts[0],opts[1],opts[2],opts[3],opts[4],opts[5],opts[6],opts[7] + '.' + i + '.children']" style="display:inherit" />
             </view>
-            <view v-else :class="'_'+tr.name+' '+tr.attrs.class" :style="tr.attrs.style">
-              <view v-for="(td, z) in tr.children" v-bind:key="z" :class="'_'+td.name+' '+td.attrs.class" :style="td.attrs.style">
-                <node :childs="td.children" :opts="[opts[0],opts[1],opts[2],opts[3],opts[4],opts[5],opts[6],opts[7]+'.'+i+'.children.'+x+'.children.'+y+'.children.'+z+'.children']" />
-              </view>
+            <!-- 视频 -->
+            <!-- #ifdef APP-PLUS -->
+            <view v-else-if="n.html" :id="n.attrs.id" :data-i="i" :class="'_video ' + n.attrs.class" :style="n.attrs.style" @tap="mediaTap" @vplay.stop="play" v-html="n.html" />
+            <!-- #endif -->
+            <!-- #ifndef APP-PLUS -->
+            <video v-else-if="n.name === 'video'" :id="n.attrs.id" :show-center-play-btn="!opts[5]" :class="n.attrs.class" :style="n.attrs.style" :autoplay="n.attrs.autoplay" :controls="n.attrs.controls" :loop="n.attrs.loop" :muted="n.attrs.muted" :object-fit="n.attrs['object-fit']" :poster="n.attrs.poster" :src="n.src[ctrl[i] || 0]" :data-i="i" @tap="mediaTap" @play="play" @error="mediaError" />
+            <!-- #endif -->
+            <!-- #ifdef H5 || APP-PLUS -->
+            <iframe v-else-if="n.name === 'iframe'" :style="n.attrs.style" :allowfullscreen="n.attrs.allowfullscreen" :frameborder="n.attrs.frameborder" :src="n.attrs.src" />
+            <embed v-else-if="n.name === 'embed'" :style="n.attrs.style" :src="n.attrs.src" />
+            <!-- #endif -->
+            <!-- #ifndef MP-TOUTIAO || ((H5 || APP-PLUS) && VUE3) -->
+            <!-- 音频 -->
+            <audio v-else-if="n.name === 'audio'" :id="n.attrs.id" :class="n.attrs.class" :style="n.attrs.style" :author="n.attrs.author" :controls="n.attrs.controls" :loop="n.attrs.loop" :name="n.attrs.name" :poster="n.attrs.poster" :src="n.src[ctrl[i] || 0]" :data-i="i" @tap="mediaTap" @play="play" @error="mediaError" />
+            <!-- #endif -->
+            <view v-else-if="(n.name === 'table' && (n.c || opts[5])) || n.name === 'li'" :id="n.attrs.id" :class="'_' + n.name + ' ' + n.attrs.class" :style="n.attrs.style">
+                <node v-if="n.name === 'li'" :childs="n.children" :opts="[opts[0],opts[1],opts[2],opts[3],opts[4],opts[5],opts[6],opts[7] + '.' + i + '.children']" />
+                <view v-for="(tbody, x) in n.children" v-else :key="x" :class="'_' + tbody.name + ' ' + tbody.attrs.class" :style="tbody.attrs.style">
+                    <node v-if="tbody.name === 'td' || tbody.name === 'th'" :childs="tbody.children" :opts="[opts[0],opts[1],opts[2],opts[3],opts[4],opts[5],opts[6],opts[7] + '.' + i + '.children.' + x + '.children']" />
+                    <block v-for="(tr, y) in tbody.children" v-else :key="y">
+                        <view v-if="tr.name === 'td' || tr.name === 'th'" :class="'_' + tr.name + ' ' + tr.attrs.class" :style="tr.attrs.style">
+                            <node :childs="tr.children" :opts="[opts[0],opts[1],opts[2],opts[3],opts[4],opts[5],opts[6],opts[7] + '.' + i + '.children.' + x + '.children.' + y + '.children']" />
+                        </view>
+                        <view v-else :class="'_' + tr.name + ' ' + tr.attrs.class" :style="tr.attrs.style">
+                            <view v-for="(td, z) in tr.children" :key="z" :class="'_' + td.name + ' ' + td.attrs.class" :style="td.attrs.style">
+                                <node :childs="td.children" :opts="[opts[0],opts[1],opts[2],opts[3],opts[4],opts[5],opts[6],opts[7] + '.' + i + '.children.' + x + '.children.' + y + '.children.' + z + '.children']" />
+                            </view>
+                        </view>
+                    </block>
+                </view>
             </view>
-          </block>
-        </view>
-      </view>
-      
-      <!-- 富文本 -->
-      <!-- #ifdef H5 || ((MP-WEIXIN || MP-QQ || APP-PLUS || MP-360) && VUE2) -->
-      <rich-text v-else-if="!opts[5]&&!n.c&&!handler.isInline(n.name, n.attrs.style)" :id="n.attrs.id" :style="n.f" :user-select="opts[4]" :nodes="[n]" />
-      <!-- #endif -->
-      <!-- #ifndef H5 || ((MP-WEIXIN || MP-QQ || APP-PLUS || MP-360) && VUE2) -->
-      <rich-text v-else-if="!opts[5]&&!n.c" :id="n.attrs.id" :style="'display:inline;'+n.f" :preview="false" :selectable="opts[4]" :user-select="opts[4]" :nodes="[n]" />
-      <!-- #endif -->
-      <!-- 继续递归 -->
-      <view v-else-if="n.c===2" :id="n.attrs.id" :class="'_block _'+n.name+' '+n.attrs.class" :style="n.f+';'+n.attrs.style">
-        <node v-for="(n2, j) in n.children" v-bind:key="j" :style="n2.f" :name="n2.name" :attrs="n2.attrs" :childs="n2.children" :opts="[opts[0],opts[1],opts[2],opts[3],opts[4],opts[5],opts[6],opts[7]+'.'+i+'.children.'+j+'.children']" />
-      </view>
-      <node v-else :style="n.f" :name="n.name" :attrs="n.attrs" :childs="n.children" :opts="[opts[0],opts[1],opts[2],opts[3],opts[4],opts[5],opts[6],opts[7]+'.'+i+'.children']" />
-    </block>
-  </view>
+
+            <!-- 富文本 -->
+            <!-- #ifdef H5 || ((MP-WEIXIN || MP-QQ || APP-PLUS || MP-360) && VUE2) -->
+            <rich-text v-else-if="!opts[5] && !n.c && !handler.isInline(n.name, n.attrs.style)" :id="n.attrs.id" :style="n.f" :user-select="opts[4]" :nodes="[n]" />
+            <!-- #endif -->
+            <!-- #ifndef H5 || ((MP-WEIXIN || MP-QQ || APP-PLUS || MP-360) && VUE2) -->
+            <rich-text v-else-if="!opts[5] && !n.c" :id="n.attrs.id" :style="'display:inline;' + n.f" :preview="false" :selectable="opts[4]" :user-select="opts[4]" :nodes="[n]" />
+            <!-- #endif -->
+            <!-- 继续递归 -->
+            <view v-else-if="n.c === 2" :id="n.attrs.id" :class="'_block _' + n.name + ' ' + n.attrs.class" :style="n.f + ';' + n.attrs.style">
+                <node v-for="(n2, j) in n.children" :key="j" :style="n2.f" :name="n2.name" :attrs="n2.attrs" :childs="n2.children" :opts="[opts[0],opts[1],opts[2],opts[3],opts[4],opts[5],opts[6],opts[7] + '.' + i + '.children.' + j + '.children']" />
+            </view>
+            <node v-else :style="n.f" :name="n.name" :attrs="n.attrs" :childs="n.children" :opts="[opts[0],opts[1],opts[2],opts[3],opts[4],opts[5],opts[6],opts[7] + '.' + i + '.children']" />
+        </block>
+    </view>
 </template>
 <script module="handler" lang="wxs">
 // 行内标签列表
 var inlineTags = {
-  abbr: true,
-  b: true,
-  big: true,
-  code: true,
-  del: true,
-  em: true,
-  i: true,
-  ins: true,
-  label: true,
-  q: true,
-  small: true,
-  span: true,
-  strong: true,
-  sub: true,
-  sup: true
+    abbr: true,
+    b: true,
+    big: true,
+    code: true,
+    del: true,
+    em: true,
+    i: true,
+    ins: true,
+    label: true,
+    q: true,
+    small: true,
+    span: true,
+    strong: true,
+    sub: true,
+    sup: true
 }
 /**
  * @description 判断是否为行内标签
  */
 module.exports = {
-  isInline: function (tagName, style) {
-    return inlineTags[tagName] || (style || '').indexOf('display:inline') !== -1
-  }
+    isInline: function(tagName, style) {
+        return inlineTags[tagName] || (style || '').indexOf('display:inline') !== -1
+    }
 }
 </script>
 <script>
@@ -680,7 +680,7 @@ export default {
       // #ifdef MP-WEIXIN || MP-QQ
       if (this.opts[5])
         this.$nextTick(() => {
-          const id = this.childs[i].attrs.id || ('n' + i)
+          const id = this.childs[i]?.attrs.id || ('n' + i)
           uni.createSelectorQuery().in(this).select('#' + id).boundingClientRect().exec(res => {
             this.$set(this.ctrl, 'h'+i, res[0].height)
           })
@@ -688,7 +688,7 @@ export default {
       // #endif
       const i = e.currentTarget.dataset.i
       /* #ifndef H5 || (APP-PLUS && VUE2) */
-      if (!this.childs[i].w) {
+      if (!this.childs[i]?.w) {
         this.$set(this.ctrl, i, e.detail.width)
         if (this.opts[5]) {
           const path = this.opts[7] + '.' + i + '.attrs.'
@@ -847,7 +847,7 @@ export default {
   /deep/ ._section {
     display: block;
   }
-  
+
   /* #endif */
   /deep/ ._video {
     width: 300px;

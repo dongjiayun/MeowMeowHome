@@ -42,6 +42,9 @@ uni-button[type=pingan-plain],.pa-mall-button-plain{
     min-width: 200rpx;
     font-size: 30rpx;
     font-weight: 500;
+    &.round{
+        min-width:0;
+    }
     &.orange{
         border: 1px solid #F28900;
         color:#F28900 !important;
@@ -86,6 +89,9 @@ uni-button[type=pingan],.pa-mall-button {
     font-size: 30rpx;
     font-weight: 500;
     white-space: nowrap;
+    &.round{
+        min-width:0;
+    }
     &:after{
         border:none
     }

@@ -79,6 +79,11 @@ export default {
     },
     methods: {
         getThumb,
+        init(list) {
+            for (const item of (list || this.list)) {
+                this.addProperties(item)
+            }
+        },
         previewImage(item) {
             if (['mp4', 'mov'].some(i => item.src.toLowerCase().includes(i))) {
                 this.$Router.push({ name: 'videoPreview', query: { src: item.src }})

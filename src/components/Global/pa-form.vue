@@ -205,6 +205,7 @@
                             </view>
                             <view v-if="item.type === 'uploadImages'" class="pa-form-main-item-upload-Images">
                                 <pa-upload-images-v2
+                                    :ref="`uploadImages-${item.prop}`"
                                     :number="item.number || 1"
                                     :cols="item.cols || 4"
                                     :list="getFormValue(item.prop)"
@@ -363,8 +364,14 @@ export default {
                     }
                     this.$set(this.smsIntervalNumbers, i.prop, 0)
                 } else if (['uploadImages'].includes(i.type)) {
-                    this.$set(this.form, i.prop, [])
-                    this.$set(this.form, `_${i.prop}`, '')
+                    if (isNullOrEmpty(obj[i.prop])) {
+                        this.$set(this.form, i.prop, [])
+                    } else {
+                        this.$set(this.form, i.prop, obj[i.prop])
+                        this.$nextTick(() => {
+                            this.$refs?.[`uploadImages-${i.prop}`]?.[0]?.init(obj[i.prop])
+                        })
+                    }
                 } else {
                     if (isNullOrEmpty(obj[i.prop])) {
                         this.$set(this.form, i.prop, '')
@@ -376,7 +383,6 @@ export default {
             this.$nextTick(() => {
                 this.$refs.form.setRules(this.rules)
                 this.isIniting = false
-                console.log(this.form)
             })
         },
         setValue(prop, value) {
