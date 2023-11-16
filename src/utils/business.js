@@ -11,5 +11,20 @@ export const noticeJump = data => {
                 }
             })
             break
+        case 'follow':
+            router.push({
+                name: 'user',
+                query: {
+                    cid: data.noticeCode
+                }
+            })
+            break
+        case 'article':
+            router.push({
+                name: 'articleDetail',
+                query: {
+                    articleId: data.noticeCode
+                }
+            })
     }
 }

@@ -246,6 +246,7 @@ export default {
 </script>
 
 <style lang="scss">
+    @import "@/styles";
 	$uni-searchbar-height: 36px;
 
 	.uni-searchbar {
@@ -309,7 +310,7 @@ export default {
 		padding-left: 10px;
 		line-height: $uni-searchbar-height;
 		font-size: 14px;
-		color: #333333;
+		color: $pingan-color;
 		/* #ifdef H5 */
 		cursor: pointer;
 		/* #endif */

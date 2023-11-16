@@ -109,11 +109,15 @@ export default {
                         const articleId = res.data
                         this.$toast({ title: this.isEdit ? '修改成功' : '发布成功' })
                         setTimeout(() => {
-                            this.$Router.redirectTo({
-                                name: 'articleDetail',
-                                query: {
-                                    articleId
-                                }})
+                            if (this.isEdit) {
+                                this.$router.back()
+                            } else {
+                                this.$Router.redirectTo({
+                                    name: 'articleDetail',
+                                    query: {
+                                        articleId
+                                    }})
+                            }
                         }, 1000)
                     } else {
                         this.$toast({ title: res.message })

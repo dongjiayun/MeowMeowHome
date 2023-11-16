@@ -23,6 +23,7 @@
                                     <uni-icons type="plusempty" color="#fff" size="10" />
                                 </template>
                             </view>
+                            <view class="pa-article-detail-body-main-subtitle-author-fans">{{ toThousandsNum(fansCount,0) }}粉丝</view>
                         </view>
                         <view class="pa-article-detail-body-main-subtitle-time">
                             发表于{{ dayjs(data.createdAt).format('YYYY-MM-DD HH:mm:ss') }}
@@ -112,6 +113,7 @@ export default {
             isLike: false,
             isCollect: false,
             isFollow: false,
+            fansCount: 0
         }
     },
     onLoad({ articleId }) {
@@ -148,6 +150,7 @@ export default {
         this.init()
     },
     methods: {
+        toThousandsNum,
         dayjs,
         init() {
             this.getDetail()
@@ -159,12 +162,28 @@ export default {
                     this.data = res.data
                     this.checkLikeAndCollect()
                     this.checkFollow()
+                    this.getFansCount()
                 } else {
                     this.$toast({ title: res.message })
                 }
             }).finally(() => {
                 this.$message.hide()
                 uni.stopPullDownRefresh()
+            })
+        },
+        getFansCount() {
+            if (!this.token) {
+                return
+            }
+            const params = {
+                pageSize: 0,
+                pageNo: 0,
+                cid: this.data.author.cid
+            }
+            userModel.getFollowers(params).then(res => {
+                if (res.status === 0) {
+                    this.fansCount = res.data.totalCount
+                }
             })
         },
         checkFollow() {
@@ -248,7 +267,12 @@ export default {
             })
         },
         handleComment() {
-
+            this.$Router.push({
+                name: 'comment',
+                query: {
+                    articleId: this.articleId
+                }
+            })
         },
         handlePrivate() {
             this.$refs.container.showConfirm({
@@ -320,6 +344,7 @@ export default {
                 if (res.status === 0) {
                     this.$toast({ title: '关注成功~' })
                     this.isFollow = true
+                    this.fansCount++
                 } else {
                     this.$toast({ title: res.message })
                 }
@@ -333,6 +358,7 @@ export default {
                 if (res.status === 0) {
                     this.$toast({ title: '取消关注成功~' })
                     this.isFollow = false
+                    this.fansCount--
                 } else {
                     this.$toast({ title: res.message })
                 }
@@ -402,6 +428,12 @@ export default {
                         &.isFollow{
                             background: #ccc;
                         }
+                    }
+                    &-fans{
+                        font-size: 20rpx;
+                        font-weight: 400;
+                        color: #ccc;
+                        margin-left: 12rpx;
                     }
                 }
                 &-time{

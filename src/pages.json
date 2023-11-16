@@ -131,6 +131,18 @@
                     }
                 }
             ]
+        },
+        {
+            "root": "pages/comment",
+            "pages": [
+                {
+                    "path": "index",
+                    "style": {
+                        "backgroundColor": "#F5F5F5",
+                        "enablePullDownRefresh": true
+                    }
+                }
+            ]
         }
     ],
 	"globalStyle": {
@@ -169,6 +181,11 @@
             {
                 "name": "消息",
                 "path": "pages/notice/index"
+            },
+            {
+                "name": "评论",
+                "path": "pages/comment/index",
+                "query": "articleId=Article-9bc1ad01-65a3-404e-a8d3-a785074c669e"
             }
         ]
     }

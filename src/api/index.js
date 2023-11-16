@@ -95,3 +95,21 @@ export const noticeModel = {
         return http.put(`/notice/readAll`)
     }
 }
+
+export const commentModel = {
+    list(data) {
+        return http.post('/comment/get', data)
+    },
+    detail(commentId) {
+        return http.get(`/comment/${commentId}`)
+    },
+    create(data) {
+        return http.post('/comment', data)
+    },
+    edit(data) {
+        return http.put('/comment', data)
+    },
+    delete(commentId) {
+        return http.delete(`/comment/${commentId}`)
+    }
+}

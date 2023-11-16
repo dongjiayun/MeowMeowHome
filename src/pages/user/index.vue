@@ -6,7 +6,7 @@
     >
         <view class="pa-mine">
             <view class="pa-mine-header">
-                <pa-navbar>我的</pa-navbar>
+                <pa-navbar>{{ profileData.username || '匿名猫猫' }}的主页</pa-navbar>
                 <view
                     class="pa-mine-header-avatar"
                 >

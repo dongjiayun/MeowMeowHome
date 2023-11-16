@@ -106,6 +106,13 @@ const user = [
     }
 ]
 
+const comment = [
+    {
+        path: 'pages/comment/index',
+        name: 'comment'
+    }
+]
+
 const routes = [
     ...base,
     ...mall,
@@ -114,6 +121,7 @@ const routes = [
     ...article,
     ...common,
     ...user,
+    ...comment
 ]
 
 export default routes
