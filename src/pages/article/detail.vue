@@ -59,6 +59,9 @@
                     <button class="pa-mall-button round" @click="handleEdit">
                         <uni-icons type="compose" size="24" />
                     </button>
+                    <button class="pa-mall-button round" @click="handleComment">
+                        <uni-icons type="chat" size="24" />
+                    </button>
                 </view>
                 <view v-else class="pa-article-detail-footer">
                     <button v-if="isLike" class="pa-mall-button" @click="handleUnLike">
@@ -183,6 +186,8 @@ export default {
             userModel.getFollowers(params).then(res => {
                 if (res.status === 0) {
                     this.fansCount = res.data.totalCount
+                } else {
+                    this.$toast({ title: res.message })
                 }
             })
         },
@@ -196,6 +201,8 @@ export default {
             userModel.checkFollow(params).then(res => {
                 if (res.status === 0) {
                     this.isFollow = res.data
+                } else {
+                    this.$toast({ title: res.message })
                 }
             })
         },
@@ -207,6 +214,8 @@ export default {
                 if (res.status === 0) {
                     this.isLike = res.data.isLike
                     this.isCollect = res.data.isCollect
+                } else {
+                    this.$toast({ title: res.message })
                 }
             })
         },

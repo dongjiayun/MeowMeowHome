@@ -36,6 +36,8 @@ const business = {
                     if (res.data.list && res.data.list.length) {
                         return res.data.list[0]
                     }
+                } else {
+                    toast({ title: res.message })
                 }
             })
         },

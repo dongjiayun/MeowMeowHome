@@ -60,6 +60,8 @@ export default {
             noticeModel.read(this.notice.noticeId).then(res => {
                 if (res.status === 0) {
                     this.$emit('read', this.notice.noticeId)
+                } else {
+                    this.$toast({ title: res.message })
                 }
             }).finally(() => {
                 this.$message.hide()

@@ -8,6 +8,7 @@
                 <pa-navbar>评论</pa-navbar>
             </view>
             <view class="pa-comment-body">
+                <view v-if="showBack" class="pa-comment-body-back" @click="handleGotoArticle">转到小作文</view>
                 <comment-card
                     v-for="(item,index) in list"
                     :key="index"
@@ -46,14 +47,16 @@ export default {
         commentCard
     },
     mixins: [pagination],
-    onLoad({ articleId }) {
+    onLoad({ articleId, showBack }) {
         this.articleId = articleId
+        this.showBack = showBack
     },
     data() {
         return {
             articleId: undefined,
             list: [],
-            comment: ''
+            comment: '',
+            showBack: false
         }
     },
     onPullDownRefresh() {
@@ -68,6 +71,7 @@ export default {
     methods: {
         init() {
             this.list = []
+            this.comment = ''
             this.initPagination()
             this.getData()
         },
@@ -89,6 +93,8 @@ export default {
                     } else {
                         this.noMore = true
                     }
+                } else {
+                    this.$toast({ title: res.message })
                 }
             }).finally(() => {
                 this.$message.hide()
@@ -109,9 +115,19 @@ export default {
                 if (res.status === 0) {
                     this.$toast({ title: '评论成功' })
                     this.init()
+                } else {
+                    this.$toast({ title: res.message })
                 }
             }).finally(() => {
                 this.$message.hide()
+            })
+        },
+        handleGotoArticle() {
+            this.$Router.push({
+                name: 'articleDetail',
+                query: {
+                    articleId: this.articleId
+                }
             })
         }
     }
@@ -119,6 +135,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "@/styles";
 .pa-comment{
     &-header{
         z-index: 10;
@@ -128,6 +145,13 @@ export default {
     }
     &-body{
         padding: 16rpx;
+        &-back{
+            padding: 16rpx;
+            font-size: 24rpx;
+            font-weight: 400;
+            color: $pingan-color;
+            margin-left: 8rpx;
+        }
     }
 }
 </style>

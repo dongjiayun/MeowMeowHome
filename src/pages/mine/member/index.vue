@@ -72,6 +72,22 @@
                         :data="item"
                     />
                 </view>
+                <view v-if="tab === 5">
+                    <comment-card
+                        v-for="(item,index) in list"
+                        :key="index"
+                        readonly
+                        :data="item"
+                    />
+                </view>
+                <view v-if="tab === 6">
+                    <comment-card
+                        v-for="(item,index) in list"
+                        :key="index"
+                        readonly
+                        :data="item"
+                    />
+                </view>
             </view>
             <pa-logo color="#fff" double-bottom-padding />
         </view>
@@ -81,14 +97,15 @@
 <script>
 import { getRandomCover } from '@/utils'
 import { getThumb } from '@/utils/obs'
-import { articleModel, userModel } from '@/api'
+import { articleModel, userModel, commentModel } from '@/api'
 import { mapGetters } from 'vuex'
 import articleCard from '@/components/business/articleCard.vue'
 import userCard from '@/components/business/userCard.vue'
 import pagination from '@/mixin/pagination'
 import { uniqBy } from 'lodash'
+import commentCard from '@/components/business/commentCard.vue'
 export default {
-    components: { articleCard, userCard },
+    components: { articleCard, userCard, commentCard },
     mixins: [pagination],
     data: function() {
         return {
@@ -154,6 +171,12 @@ export default {
                     break
                 case 4:
                     this.getFollowers()
+                    break
+                case 5:
+                    this.getMyComments()
+                    break
+                case 6:
+                    this.getMineLikeComments()
                     break
             }
         },
@@ -266,6 +289,49 @@ export default {
             }).finally(() => {
                 this.$message.hide()
                 uni.stopPullDownRefresh()
+            })
+        },
+        getMyComments() {
+            const params = {
+                pageNo: this.pageNo,
+                pageSize: this.pageSize,
+                cid: this.cid
+            }
+            this.$message.loading()
+            commentModel.list(params).then(res => {
+                if (res.status === 0) {
+                    if (res.data.list && res.data.list.length) {
+                        this.list = uniqBy([... this.list, ... res.data.list], 'commentId')
+                        this.pageNo++
+                    } else {
+                        this.noMore = true
+                    }
+                } else {
+                    this.$toast({ title: res.message })
+                }
+            }).finally(() => {
+                this.$message.hide()
+            })
+        },
+        getMineLikeComments() {
+            const params = {
+                pageNo: this.pageNo,
+                pageSize: this.pageSize,
+            }
+            this.$message.loading()
+            commentModel.getLikeComments(params).then(res => {
+                if (res.status === 0) {
+                    if (res.data.list && res.data.list.length) {
+                        this.list = uniqBy([... this.list, ... res.data.list], 'commentId')
+                        this.pageNo++
+                    } else {
+                        this.noMore = true
+                    }
+                } else {
+                    this.$toast({ title: res.message })
+                }
+            }).finally(() => {
+                this.$message.hide()
             })
         }
     }

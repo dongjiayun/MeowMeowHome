@@ -89,6 +89,8 @@ export default {
                         })
                         this.$refs.article.init(content)
                     })
+                } else {
+                    this.$toast({ title: res.message })
                 }
             })
         },

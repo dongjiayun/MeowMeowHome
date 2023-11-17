@@ -26,5 +26,30 @@ export const noticeJump = data => {
                     articleId: data.noticeCode
                 }
             })
+            break
+        case 'comment':
+            if (data.noticeCode.includes('Article')) {
+                router.push({
+                    name: 'articleDetail',
+                    query: {
+                        articleId: data.noticeCode.split('|')?.[1],
+                    }
+                })
+            } else {
+                router.push({
+                    name: 'comment',
+                    query: {
+                        articleId: data.noticeCode.split('|')?.[1],
+                    }
+                })
+            }
+            break
+        case 'likeComment':
+            router.push({
+                name: 'comment',
+                query: {
+                    articleId: data.noticeCode.split('|')?.[1]
+                }
+            })
     }
 }

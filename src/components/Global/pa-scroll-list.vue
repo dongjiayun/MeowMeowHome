@@ -51,7 +51,7 @@
                         <view v-else class="load-view">
                             <slot v-if="$slots.nomore" name="nomore" />
                             <!-- <text v-else class="pull-up-text" :style="[pullUpTextStyle]">{{ loadStateText }}</text>-->
-                            <pa-logo />
+                            <view>没有更多了~ </view>
                         </view>
                     </view>
                 </view>
@@ -773,10 +773,12 @@ export default {
                 justify-content: center;
                 margin-bottom: 32rpx;
                 .load-view {
-                    padding: 20rpx 0;
+                    padding: 8rpx 0;
                     display: flex;
                     align-items: center;
                     justify-content: center;
+                    font-size: 28rpx;
+                    color: #aaa;
                     .pull-up-animation {
                         width: 32rpx;
                         height: 32rpx;

@@ -93,6 +93,8 @@ export default {
                 if (res.status === 0) {
                     this.$toast({ title: '已全部已读' })
                     this.init()
+                } else {
+                    this.$toast({ title: res.message })
                 }
             }).finally(() => {
                 this.$message.hide()

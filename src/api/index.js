@@ -111,5 +111,14 @@ export const commentModel = {
     },
     delete(commentId) {
         return http.delete(`/comment/${commentId}`)
+    },
+    like(commentId) {
+        return http.post(`/comment/like/${commentId}`)
+    },
+    unLike(commentId) {
+        return http.delete(`/comment/like/${commentId}`)
+    },
+    getLikeComments(data) {
+        return http.post('/comment/get/like', data)
     }
 }
