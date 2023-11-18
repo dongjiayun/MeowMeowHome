@@ -15,7 +15,8 @@ const user = {
         isLogin: false,
         hasFreshToken: false,
         cid: undefined,
-        phone: undefined
+        phone: undefined,
+        isAdmin: false
     },
     mutations: {
         SET_TOKEN: (state, token) => {
@@ -61,6 +62,7 @@ const user = {
         },
         SET_CID: (state, cid) => {
             state.cid = cid
+            state.isAdmin = ['C000000000001'].includes(cid)
             Storage.set('pa_cid', cid)
         },
         REMOVE_CID: state => {

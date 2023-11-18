@@ -7,6 +7,7 @@ const getters = {
     platNo: state => state.user.platNo,
     cid: state => state.user.cid,
     phoneNo: state => state.user.phoneNo,
+    isAdmin: state => state.user.isAdmin,
     // app
     showMask: state => state.app.showMask,
     showLoading: state => state.app.showLoading,

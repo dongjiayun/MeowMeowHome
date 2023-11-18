@@ -112,7 +112,7 @@ export default {
                         this.$toast({ title: this.isEdit ? '修改成功' : '发布成功' })
                         setTimeout(() => {
                             if (this.isEdit) {
-                                this.$router.back()
+                                this.$Router.back()
                             } else {
                                 this.$Router.redirectTo({
                                     name: 'articleDetail',

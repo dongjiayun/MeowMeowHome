@@ -40,6 +40,7 @@ export const noticeJump = data => {
                     name: 'comment',
                     query: {
                         articleId: data.noticeCode.split('|')?.[1],
+                        showBack: true
                     }
                 })
             }
@@ -48,7 +49,8 @@ export const noticeJump = data => {
             router.push({
                 name: 'comment',
                 query: {
-                    articleId: data.noticeCode.split('|')?.[1]
+                    articleId: data.noticeCode.split('|')?.[1],
+                    showBack: true
                 }
             })
     }

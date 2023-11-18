@@ -126,7 +126,7 @@ export default {
         this.init()
     },
     computed: {
-        ...mapGetters(['token', 'cid']),
+        ...mapGetters(['token', 'cid', 'isAdmin']),
         covers() {
             return this.data?.covers?.map(i => i.fileUrl) || [getRandomCover()]
         },
@@ -143,7 +143,7 @@ export default {
             return toThousandsNum(this.data.commentCount || 0, 0)
         },
         isSelf() {
-            return this.cid === this.data?.author?.cid
+            return this.cid === this.data?.author?.cid || this.isAdmin
         },
         isPrivate() {
             return this.data.isPrivate

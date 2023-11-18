@@ -52,6 +52,7 @@ const business = {
         },
         checkNewNoticeIntervel({ state, dispatch }) {
             const func = async() => {
+                if (!user.state.token) return
                 const noticeCache = Storage.get('pa_newest_notice')
                 const noticeNew = await dispatch('getNewNotice')
                 if (noticeCache && noticeCache.noticeId !== noticeNew.noticeId) {
