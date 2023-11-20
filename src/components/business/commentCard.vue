@@ -22,6 +22,9 @@
                 <text>{{ toThousandsNum(commentCount,0) }} </text>
                 <uni-icons color="#FF824C" type="chat" size="16" />
             </view>
+            <view v-if="isSelf" class="pa-comment-card-footer-item" @click.stop="handleDelete">
+                <uni-icons color="#FF824C" type="trash" size="16" />
+            </view>
         </view>
         <view v-if="showComment" class="pa-comment-card-comment">
             <custom-search-bar
@@ -49,6 +52,7 @@
                         :key="index"
                         :readonly="readonly"
                         :data="item"
+                        @delete="handleDelete"
                     />
                 </view>
             </pa-scroll-list>
@@ -81,7 +85,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['cid']),
+        ...mapGetters(['cid', 'isAdmin']),
         avatar() {
             return this.data.author?.avatar?.fileUrl || getRandomCover()
         },
@@ -90,6 +94,9 @@ export default {
         },
         commentCount() {
             return this.data.childrenCommentIds?.length || 0
+        },
+        isSelf() {
+            return this.cid === this.data?.authorId || this.isAdmin
         },
     },
     mounted() {
@@ -213,6 +220,9 @@ export default {
                     articleId: this.data.articleId
                 }
             })
+        },
+        handleDelete() {
+            this.$emit('delete', this.data)
         }
     }
 }

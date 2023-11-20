@@ -1,5 +1,6 @@
 <template>
     <pa-container
+        ref="container"
         is-page
         disable-share
     >
@@ -13,6 +14,7 @@
                     v-for="(item,index) in list"
                     :key="index"
                     :data="item"
+                    @delete="handleDelete"
                 />
                 <pa-empty v-if="list.length === 0" />
                 <pa-logo double-bottom-padding />
@@ -127,6 +129,24 @@ export default {
                 name: 'articleDetail',
                 query: {
                     articleId: this.articleId
+                }
+            })
+        },
+        handleDelete({ commentId }) {
+            this.$refs.container.showConfirm({
+                content: '确定要删除该评论吗?',
+                confirm: () => {
+                    this.$message.loading()
+                    commentModel.delete(commentId).then(res => {
+                        if (res.status === 0) {
+                            this.$toast({ title: '删除成功' })
+                            this.init()
+                        } else {
+                            this.$toast({ title: res.message })
+                        }
+                    }).finally(() => {
+                        this.$message.hide()
+                    })
                 }
             })
         }
