@@ -247,6 +247,7 @@ function Editable(vm) {
    */
     vm.insertImg = function() {
         vm.getSrc && vm.getSrc('img').then(src => {
+            console.log(src)
             if (typeof src === 'string') {
                 src = [src]
             }

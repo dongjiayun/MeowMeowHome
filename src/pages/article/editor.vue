@@ -26,6 +26,7 @@
 <script >
 import mpEditor from '@/components/mp-html/index.vue'
 import { articleModel } from '@/api'
+
 export default {
     components: { mpEditor },
     data() {
@@ -57,7 +58,7 @@ export default {
                     number: 9,
                     info: '多发靓照哦~,第一张默认为文章封面~,不传的话会随机分配一张',
                 }
-            ]
+            ],
         }
     },
     onLoad({ articleId }) {
@@ -66,7 +67,7 @@ export default {
     computed: {
         isEdit() {
             return !!this.articleId
-        }
+        },
     },
     onShow() {
         this.init()
@@ -128,7 +129,7 @@ export default {
                     this.$message.hide()
                 })
             })
-        }
+        },
     }
 }
 </script>

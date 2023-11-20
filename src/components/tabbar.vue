@@ -7,7 +7,7 @@
     >
         <view
             v-for="(item,index) in leftTabs"
-            :key="index"
+            :key="'tab-left-' + index"
             class="pa-tabbar-tabs"
         >
             <uni-badge
@@ -35,7 +35,7 @@
         </view>
         <view
             v-for="(item,index) in rightTabs"
-            :key="index"
+            :key="'tab-right-' + index"
             class="pa-tabbar-tabs"
         >
             <uni-badge

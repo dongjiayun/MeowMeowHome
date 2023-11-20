@@ -9,9 +9,6 @@ import config from '@/config'
 import dict from '@/config/dict'
 import store from '@/store'
 
-// import share from '@/mixin/share'
-//
-// Vue.mixin(share)
 
 Vue.prototype.$Router = router
 Vue.prototype.$Config = config

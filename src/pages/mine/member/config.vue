@@ -175,7 +175,9 @@ export default {
             }
             switch (prop) {
                 case 'avatar':
-                    // this.$refs.avatar.open()
+                    // #ifdef H5
+                    this.$refs.avatar.open()
+                    // #endif
                     break
                 case 'username':
                     this.$Router.push({

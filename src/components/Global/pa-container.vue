@@ -137,6 +137,7 @@ export default {
             }
         },
         handleEnableShare() {
+            // #ifdef MP-WEIXIN
             if (this.isPage) {
                 uni.showShareMenu({
                     withShareTicket: true,
@@ -144,11 +145,14 @@ export default {
                 })
                 this.setShare()
             }
+            // #endif
         },
         handleDisableShare() {
+            // #ifdef MP-WEIXIN
             if (this.isPage) {
                 uni.hideShareMenu()
             }
+            // #endif
         },
         setShare() {
             const title = this.shareTitle || '快摇人来聊🐱🐱'

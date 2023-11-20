@@ -141,7 +141,7 @@ export default {
             ]
         }
     },
-    onReady() {
+    mounted() {
         /**
 			 * @description 设置获取链接的方法
 			 * @param {String} type 链接的类型（img/video/audio/link）
@@ -151,8 +151,10 @@ export default {
 			 *   type 为 audio 时，可以返回一个 object，包含 src、name、author、poster 等字段
 			 */
         const vm = this
+        console.log('ready')
         this.$refs.article.getSrc = (type, value) => {
             return new Promise((resolve, reject) => {
+                console.log(type)
                 if (type === 'img' || type === 'video') {
                     uni.showActionSheet({
                         itemList: ['本地选取', '远程链接'],
@@ -163,6 +165,7 @@ export default {
                                     uni.chooseImage({
                                         count: value === undefined ? 9 : 1, // 2.2.0 版本起插入图片时支持多张（修改图片链接时仅限一张）
                                         success: async res => {
+                                            console.log(res)
                                             const files = res.tempFiles
                                             const urls = await vm.uploadHandle(files)
                                             resolve(urls)
@@ -220,9 +223,10 @@ export default {
             })
         },
         async uploadHandle(file) {
+            console.log(file)
             let files = []
             const loads = []
-            const limit = 50 * 1024 * 1024
+            const limit = 10 * 1024 * 1024
             file.forEach(i => {
                 if (i.size > limit) {
                     return this.$toast({ title: '文件太大' })
@@ -530,6 +534,7 @@ export default {
 	}
 
 	.modal_input {
+        height: 30px;
 		display: block;
 		padding: 5px;
 		font-size: 14px;

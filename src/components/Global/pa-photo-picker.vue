@@ -91,9 +91,15 @@ export default {
             let hasExceotionFile = false
             if (this.extension && this.extension.length > 0) {
                 file.forEach(url => {
+                    console.log(url)
                     let count = 0
                     if (this.extension.some(ext => {
+                        // #ifdef MP-WEIXIN
                         return url.path.toLowerCase().includes(ext)
+                        // #endif
+                        // #ifdef H5
+                        return url.name.toLowerCase().includes(ext)
+                        // #endif
                     })) {
                         count++
                     }
@@ -103,7 +109,12 @@ export default {
                 })
                 file = file.filter(i => {
                     return this.extension.some(except => {
+                        // #ifdef MP-WEIXIN
                         return i.path.toLowerCase().includes(except)
+                        // #endif
+                        // #ifdef H5
+                        return i.name.toLowerCase().includes(except)
+                        // #endif
                     })
                 })
             }
