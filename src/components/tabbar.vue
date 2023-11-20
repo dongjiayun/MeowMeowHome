@@ -111,10 +111,15 @@ export default {
         },
         handleClick({ name, openMiniprogram, appId, path }) {
             if (openMiniprogram) {
+                // #ifdef  MP-WEIXIN
                 return uni.navigateToMiniProgram({
                     appId,
                     path,
                 })
+                // #endif
+                // #ifdef  H5
+                return this.$toast({ title: '小店未开,敬请期待~' })
+                // #endif
             }
             if (this.$Router.getCurrentRouteName() !== name) {
                 this.$Router.redirectTo({ name })

@@ -97,7 +97,7 @@
         "usingComponents" : true
     },
     "h5" : {
-        "title" : "盟宠星球",
+        "title" : "喵喵喵",
         "router" : {
             "mode" : "history"
         },

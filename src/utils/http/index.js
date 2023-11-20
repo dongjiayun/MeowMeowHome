@@ -9,7 +9,7 @@ const http = new Request()
 // request全局参数设置
 http.setConfig(config => {
     /* 设置全局配置 */
-    config.baseUrl = indexConfig.baseUrl /* 根域名不同 */
+    config.baseUrl = process.env.NODE_ENV === 'development' ? '/api' : indexConfig.baseUrl /* 根域名不同 */
     const systemInfo = uni.getSystemInfoSync()
     const systemInfoHeaders = {
         'device-name': systemInfo.brand, // 设备名称

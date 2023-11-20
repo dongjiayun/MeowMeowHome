@@ -104,7 +104,7 @@ export default {
         }
     }
     &-body{
-        margin: 0 16rpx;
+        padding: 16rpx;
         &-item{
             margin-bottom: 16rpx;
         }

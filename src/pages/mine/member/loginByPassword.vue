@@ -25,6 +25,7 @@
                         <button class="pa-mall-button" @click="handleLogin">一键登录</button>
                     </view>
                 </template>
+                <!-- #ifdef  MP-WEIXIN -->
                 <view class="pa-login-body-other">其他登录方式</view>
                 <view class="pa-login-body-buttons">
                     <view v-if="loginType !== 'emailWithPassword'" class="pa-login-body-buttons-button" @click="loginType = 'emailWithPassword'">
@@ -42,6 +43,7 @@
                         />
                     </view>
                 </view>
+                <!-- #endif -->
             </view>
         </view>
     </pa-container>
@@ -87,7 +89,12 @@ export default {
                     ]
                 }
             ],
-            loginType: 'wechat'
+            // #ifdef  MP-WEIXIN
+            loginType: 'wechat',
+            // #endif
+            // #ifdef  H5
+            loginType: 'emailWithPassword',
+            // #endif
         }
     },
     methods: {
