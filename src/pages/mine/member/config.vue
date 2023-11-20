@@ -91,6 +91,12 @@ export default {
                     openType: 'contact',
                     func: true
                 },
+                {
+                    label: '关于',
+                    prop: 'about',
+                    text: '🐱 🐱 🐱',
+                    func: true
+                },
             ],
             ganderOpts: [
                 {
@@ -252,6 +258,10 @@ export default {
                 case 'city':
                     this.$refs.areaSelector.open(this.profileData?.cityInfo)
                     break
+                case 'about':
+                    this.$Router.push({
+                        name: 'about'
+                    })
             }
         },
         handleLogout() {

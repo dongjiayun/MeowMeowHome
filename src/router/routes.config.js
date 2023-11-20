@@ -96,6 +96,10 @@ const common = [
     {
         path: 'pages/common/videoPreview',
         name: 'videoPreview'
+    },
+    {
+        path: 'pages/common/about',
+        name: 'about'
     }
 ]
 

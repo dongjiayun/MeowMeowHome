@@ -38,6 +38,11 @@
                     "style": {
                         "navigationBarTextStyle": "white"
                     }
+                },{
+                    "path": "about",
+                    "style": {
+                        "backgroundColor": "#FFFFFF"
+                    }
                 }
             ]
         },
