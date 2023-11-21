@@ -109,7 +109,7 @@ export default {
             const isActive = this.$Router.checkCurrentRouteActive(path)
             return isActive ? tabActiveIcon : tabInactiveIcon
         },
-        handleClick({ name, openMiniprogram, appId, path }) {
+        handleClick({ name, openMiniprogram, appId, path, isPush }) {
             if (openMiniprogram) {
                 // #ifdef  MP-WEIXIN
                 return uni.navigateToMiniProgram({
@@ -122,7 +122,11 @@ export default {
                 // #endif
             }
             if (this.$Router.getCurrentRouteName() !== name) {
-                this.$Router.redirectTo({ name })
+                if (isPush) {
+                    this.$Router.push({ name })
+                } else {
+                    this.$Router.redirectTo({ name })
+                }
             }
         },
         getBind(bind) {

@@ -33,6 +33,7 @@ const notice = [
         tabbarName: '消息',
         isTabbar: true,
         bind: 'noticeAmount',
+        isPush: true,
         tabActiveIcon: require('static/tabbar/category_active.png'),
         tabInactiveIcon: require('static/tabbar/category.png')
     }
