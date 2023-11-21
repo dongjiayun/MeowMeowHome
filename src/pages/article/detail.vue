@@ -12,11 +12,11 @@
                     </view>
                     <view class="pa-article-detail-body-main-subtitle">
                         <view class="pa-article-detail-body-main-subtitle-author">
-                            <image class="pa-article-detail-body-main-subtitle-author-avatar" :src="avatar" />
-                            <view class="pa-article-detail-body-main-subtitle-author-username">{{ data.author.username || '匿名猫猫' }}</view>
+                            <image class="pa-article-detail-body-main-subtitle-author-avatar" :src="avatar" @click="handleUserDetail" />
+                            <view class="pa-article-detail-body-main-subtitle-author-username" @click="handleUserDetail">{{ data.author.username || '匿名猫猫' }}</view>
                             <view v-if="!isSelf" class="pa-article-detail-body-main-subtitle-author-follow" @click="isFollow ? handleUnFollow() : handleFollow()">
                                 <template v-if="isFollow">
-                                    <view>取消关注</view>
+                                    <view>已关注</view>
                                 </template>
                                 <template v-else>
                                     <view>关注</view>
@@ -38,7 +38,7 @@
                 </view>
             </view>
             <pa-footer>
-                <view v-if="isSelf" class="pa-article-detail-footer">
+                <view v-if="isSelf || isAdmin" class="pa-article-detail-footer">
                     <view class="pa-article-detail-footer-data">
                         <text>{{ likesCount }}</text>
                         <uni-icons color="FFAA2C" type="hand-up" size="24" />
@@ -65,7 +65,7 @@
                 </view>
                 <view v-else class="pa-article-detail-footer">
                     <button v-if="isLike" class="pa-mall-button" @click="handleUnLike">
-                        <text>取消点赞</text>
+                        <text>已点赞</text>
                         <uni-icons type="hand-up" size="24" />
                         <text>{{ likesCount }}</text>
                     </button>
@@ -75,7 +75,7 @@
                         <text>{{ likesCount }}</text>
                     </button>
                     <button v-if="isCollect" class="pa-mall-button" @click="handleUnCollect">
-                        <text>取消收藏</text>
+                        <text>已收藏</text>
                         <uni-icons type="star" size="24" />
                         <text>{{ collectCount }}</text>
                     </button>
@@ -128,7 +128,7 @@ export default {
     computed: {
         ...mapGetters(['token', 'cid', 'isAdmin']),
         covers() {
-            return this.data?.covers?.map(i => i.fileUrl) || [getRandomCover()]
+            return this.data?.covers && this.data?.covers.length > 0 ? this.data?.covers?.map(i => i.fileUrl) : [getRandomCover()]
         },
         avatar() {
             return this.data.author?.avatar?.fileUrl || getRandomCover()
@@ -143,7 +143,7 @@ export default {
             return toThousandsNum(this.data.commentCount || 0, 0)
         },
         isSelf() {
-            return this.cid === this.data?.author?.cid || this.isAdmin
+            return this.cid === this.data?.author?.cid
         },
         isPrivate() {
             return this.data.isPrivate
@@ -162,10 +162,17 @@ export default {
             this.$message.loading()
             articleModel.get(this.articleId).then(res => {
                 if (res.status === 0) {
-                    this.data = res.data
-                    this.checkLikeAndCollect()
-                    this.checkFollow()
-                    this.getFansCount()
+                    if (res.data) {
+                        this.data = res.data
+                        this.checkLikeAndCollect()
+                        this.checkFollow()
+                        this.getFansCount()
+                    } else {
+                        this.$toast({ title: '文章不存在😓' })
+                        setTimeout(() => {
+                            this.$Router.back()
+                        }, 1000)
+                    }
                 } else {
                     this.$toast({ title: res.message })
                 }
@@ -380,6 +387,14 @@ export default {
                 name: 'articleEditor',
                 query: {
                     articleId: this.articleId
+                }
+            })
+        },
+        handleUserDetail() {
+            this.$Router.push({
+                name: 'user',
+                query: {
+                    cid: this.data.author.cid
                 }
             })
         }
