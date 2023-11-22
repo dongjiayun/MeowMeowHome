@@ -14,6 +14,7 @@
                     :forms="forms"
                     @getSmscode="handleGetSmscode"
                 />
+                <view class="pa-login-body-signup" @click="handleSignup">已有账号?直接使用邮箱密码登录! -></view>
                 <view style="margin-top: 40rpx">
                     <button class="pa-mall-button" @click="handleLogin">立即注册/登陆</button>
                 </view>
@@ -98,6 +99,11 @@ export default {
                 }
             }).finally(() => {
                 this.$message.hide()
+            })
+        },
+        handleSignup() {
+            this.$Router.push({
+                name: 'loginByPassword'
             })
         }
     }

@@ -143,7 +143,6 @@ export default {
             userModel.info(this.cid).then(res => {
                 if (res.status === 0) {
                     this.profileData = res.data
-                    this.setForm()
                 } else {
                     this.$toast({ title: res.message })
                 }
@@ -311,6 +310,7 @@ export default {
                 }
             }).finally(() => {
                 this.$message.hide()
+                uni.stopPullDownRefresh()
             })
         },
         getMineLikeComments() {
@@ -332,6 +332,7 @@ export default {
                 }
             }).finally(() => {
                 this.$message.hide()
+                uni.stopPullDownRefresh()
             })
         }
     }

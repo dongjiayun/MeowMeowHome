@@ -6,16 +6,16 @@ const resolve = (dir) => require('path').join(__dirname, dir)
 module.exports = {
     devServer: {
         port: 9010,
-        proxy: {
-            // 后台接口代理
-            '/api': {
-                target: 'https://www.meowmeowmeow.cn/',
-                changeOrigin: true,
-                pathRewrite: {
-                    '^/api': ''
-                }
-            }
-        }
+        // proxy: {
+        //     // 后台接口代理
+        //     '/api': {
+        //         target: 'https://www.meowmeowmeow.cn/',
+        //         changeOrigin: true,
+        //         pathRewrite: {
+        //             '^/api': ''
+        //         }
+        //     }
+        // }
     },
     publicPath: '',
     productionSourceMap: false, // 生产打包时不输出map文件，增加打包速度

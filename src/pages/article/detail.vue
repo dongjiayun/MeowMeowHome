@@ -2,7 +2,7 @@
     <pa-container ref="container" is-page>
         <view class="pa-article-detail">
             <view class="pa-article-detail-header">
-                <pa-navbar>{{ data.author.username || '匿名猫猫' }}的小作文</pa-navbar>
+                <pa-navbar>{{ data.author && data.author.username || '匿名猫猫' }}的小作文</pa-navbar>
             </view>
             <view class="pa-article-detail-body">
                 <banner :data="covers" />
@@ -13,7 +13,7 @@
                     <view class="pa-article-detail-body-main-subtitle">
                         <view class="pa-article-detail-body-main-subtitle-author">
                             <image class="pa-article-detail-body-main-subtitle-author-avatar" :src="avatar" @click="handleUserDetail" />
-                            <view class="pa-article-detail-body-main-subtitle-author-username" @click="handleUserDetail">{{ data.author.username || '匿名猫猫' }}</view>
+                            <view class="pa-article-detail-body-main-subtitle-author-username" @click="handleUserDetail">{{ data.author && data.author.username || '匿名猫猫' }}</view>
                             <view v-if="!isSelf" class="pa-article-detail-body-main-subtitle-author-follow" @click="isFollow ? handleUnFollow() : handleFollow()">
                                 <template v-if="isFollow">
                                     <view>已关注</view>

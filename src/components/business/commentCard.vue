@@ -47,7 +47,7 @@
                 @refresh="handleRefresh"
             >
                 <view style="padding:24rpx">
-                    <comment-card
+                    <CommentCard
                         v-for="(item,index) in comments"
                         :key="index"
                         :readonly="readonly"
@@ -100,7 +100,6 @@ export default {
         },
     },
     mounted() {
-        console.log(' this.data.likeIds?.includes(this.cid)', this.cid)
         this.isLike = this.data.likeIds?.includes(this.cid)
         this.likeCount = this.data.likeIds?.length || 0
     },

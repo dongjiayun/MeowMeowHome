@@ -84,13 +84,13 @@ export default {
                 //     text: '未绑定',
                 //     func: true
                 // },
-                {
-                    label: '注销账号',
-                    prop: 'closeTheAccount',
-                    text: '联系客服处理，注销后无法恢复',
-                    openType: 'contact',
-                    func: true
-                },
+                // {
+                //     label: '注销账号',
+                //     prop: 'closeTheAccount',
+                //     text: '联系客服处理，注销后无法恢复',
+                //     openType: 'contact',
+                //     func: true
+                // },
                 {
                     label: '关于',
                     prop: 'about',
