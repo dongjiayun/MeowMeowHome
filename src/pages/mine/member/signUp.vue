@@ -27,8 +27,17 @@
 import { Email } from '@/utils/valids'
 import { login } from '@/utils/auth'
 import { authModel } from '@/api'
+import { mapGetters } from 'vuex'
 
 export default {
+    computed: {
+        ...mapGetters(['token'])
+    },
+    onShow() {
+        if (this.token) {
+            this.$Router.redirectTo({ name: 'home' })
+        }
+    },
     data() {
         return {
             forms: [

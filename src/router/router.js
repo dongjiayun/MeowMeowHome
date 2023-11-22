@@ -97,31 +97,22 @@ class Router {
     }
 
     checkRouterAvailable({ name, path }) {
-        let routeName
-        if (whiteList.includes('ALL')) {
-            return true
-        }
         if (name) {
-            routeName = name
+            return true
         } else if (path) {
             console.log('path:' + path)
             const route = routes.find(i => i.path === path)
             console.log('route:' + JSON.stringify(route))
             if (route) {
-                routeName = route[0].name
+                return true
             } else {
-                this.push({ name: '404' })
+                const { href } = this.getRouter({ name: '404' })
+                uni.redirectTo({ url: href, fail(e) { console.log(e) } })
                 return false
             }
         } else {
-            this.push({ name: '404' })
-            return false
-        }
-        if (whiteList.includes(routeName)) {
-            console.log('Yes!!!!!!!!!!!!!!')
-            return true
-        } else {
-            this.push({ name: '404' })
+            const { href } = this.getRouter({ name: '404' })
+            uni.redirectTo({ url: href, fail(e) { console.log(e) } })
             return false
         }
     }

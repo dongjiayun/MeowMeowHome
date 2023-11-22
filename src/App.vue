@@ -25,6 +25,7 @@ export default Vue.extend({
             this.$store.commit('SET_ROUTE_LOCKED', false)
         }, 500)
         // wx.getUpdateManager 在 1.9.90 才可用，请注意兼容
+        // #ifdef MP-WEIXIN
         const updateManager = uni.getUpdateManager()
         updateManager.onUpdateReady(() => {
             uni.showModal({
@@ -37,6 +38,11 @@ export default Vue.extend({
                 }
             })
         })
+        // #endif
+        // #ifdef H5
+        const path = location.pathname.slice(1, location.pathname.length)
+        this.$Router.checkRouterAvailable({ path })
+        // #endif
     },
     onHide() {
         console.log('App Hide')
