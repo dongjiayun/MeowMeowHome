@@ -106,12 +106,12 @@ class Router {
             if (route) {
                 return true
             } else {
-                const { href } = this.getRouter({ name: '404' })
+                const { href } = this.getRouter({ name: 'home' })
                 uni.redirectTo({ url: href, fail(e) { console.log(e) } })
                 return false
             }
         } else {
-            const { href } = this.getRouter({ name: '404' })
+            const { href } = this.getRouter({ name: 'home' })
             uni.redirectTo({ url: href, fail(e) { console.log(e) } })
             return false
         }
