@@ -43,7 +43,7 @@ export default {
                     label: '旧密码',
                     inputType: 'password',
                     prop: 'password',
-                    placeholder: '请填写老密码',
+                    placeholder: '请填写旧密码',
                     subtitle: '默认密码为 123456',
                     maxlength: 20,
                     rules: [

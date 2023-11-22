@@ -94,7 +94,6 @@ export default {
         },
         async handleGetSmscode(prop, callback) {
             const { email } = await this.$refs.form.validateField(['email'])
-            if (!email) return this.$toast({ title: '请填写邮箱' })
             const params = {
                 email
             }
