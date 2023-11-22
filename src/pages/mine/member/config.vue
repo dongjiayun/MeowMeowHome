@@ -92,6 +92,12 @@ export default {
                 //     func: true
                 // },
                 {
+                    label: '密码',
+                    prop: 'password',
+                    text: '去修改',
+                    func: true
+                },
+                {
                     label: '关于',
                     prop: 'about',
                     text: '🐱 🐱 🐱',
@@ -264,6 +270,12 @@ export default {
                     this.$Router.push({
                         name: 'about'
                     })
+                    break
+                case 'password':
+                    this.$Router.push({
+                        name: 'editPassword'
+                    })
+                    break
             }
         },
         handleLogout() {

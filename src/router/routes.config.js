@@ -63,6 +63,10 @@ const mine = [
     {
         path: 'pages/mine/member/signUp',
         name: 'signUp'
+    },
+    {
+        path: 'pages/mine/member/editPassword',
+        name: 'editPassword'
     }
 ]
 

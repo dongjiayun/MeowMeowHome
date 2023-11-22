@@ -48,6 +48,9 @@ export const authModel = {
     },
     logout() {
         return http.post('/auth/signOut')
+    },
+    resetPassword(data) {
+        return http.post('/auth/resetPassword', data)
     }
 }
 
