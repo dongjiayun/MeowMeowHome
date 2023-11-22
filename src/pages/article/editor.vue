@@ -26,6 +26,8 @@
 <script >
 import mpEditor from '@/components/mp-html/index.vue'
 import { articleModel } from '@/api'
+import { mapGetters } from 'vuex'
+import { goToLogin } from '@/utils/auth'
 
 export default {
     components: { mpEditor },
@@ -65,6 +67,7 @@ export default {
         this.articleId = articleId
     },
     computed: {
+        ...mapGetters(['token']),
         isEdit() {
             return !!this.articleId
         },
@@ -74,8 +77,14 @@ export default {
     },
     methods: {
         init() {
+            this.checkLogin()
             if (this.isEdit) {
                 this.getDetail()
+            }
+        },
+        checkLogin() {
+            if (!this.token) {
+                goToLogin(true)
             }
         },
         getDetail() {
