@@ -98,6 +98,12 @@
                     "style": {
                         "backgroundColor": "#F5F5F5"
                     }
+                },
+                {
+                    "path": "member/findBackPassword",
+                    "style": {
+                        "backgroundColor": "#F5F5F5"
+                    }
                 }
             ]
         },

@@ -51,6 +51,9 @@ export const authModel = {
     },
     resetPassword(data) {
         return http.post('/auth/resetPassword', data)
+    },
+    findbackPassword(data) {
+        return http.post('/auth/findbackPassword', data)
     }
 }
 

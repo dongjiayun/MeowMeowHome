@@ -67,6 +67,10 @@ const mine = [
     {
         path: 'pages/mine/member/editPassword',
         name: 'editPassword'
+    },
+    {
+        path: 'pages/mine/member/findBackPassword',
+        name: 'findBackPassword'
     }
 ]
 

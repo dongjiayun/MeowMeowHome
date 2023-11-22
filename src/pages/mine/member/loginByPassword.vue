@@ -18,6 +18,7 @@
                     <view style="margin-top: 40rpx">
                         <button class="pa-mall-button" @click="handleLogin">立即登录</button>
                     </view>
+                    <view class="pa-login-body-findback" @click="handleFindback">忘记密码惹😅</view>
                 </template>
                 <template v-else-if="loginType === 'wechat'">
                     <view class="pa-login-body-title">快来玩!</view>
@@ -128,6 +129,11 @@ export default {
             this.$Router.push({
                 name: 'signUp'
             })
+        },
+        handleFindback() {
+            this.$Router.push({
+                name: 'findBackPassword'
+            })
         }
     }
 }
@@ -162,6 +168,12 @@ export default {
             font-weight: bolder;
             text-align: center;
             margin-top: 30rpx;
+        }
+        &-findback{
+            text-align: center;
+            color: #fff;
+            margin-top: 20rpx;
+            text-decoration: underline;
         }
         &-buttons{
             display: flex;
