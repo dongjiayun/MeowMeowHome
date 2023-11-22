@@ -19,6 +19,7 @@
                 class="pa-mall-button"
                 @click="handleSubmit"
             >提 交</button>
+            <view class="pa-mine-edit-nickname-body-forget" @click="handleForget">忘记密码惹😅</view>
         </view>
     </pa-container>
 </template>
@@ -112,6 +113,11 @@ export default {
                     this.$toast({ title: res.message })
                 }
             })
+        },
+        handleForget() {
+            this.$Router.push({
+                name: 'findBackPassword'
+            })
         }
     }
 }
@@ -128,6 +134,12 @@ export default {
     }
     &-body{
         margin: 16rpx;
+        &-forget{
+            text-align: center;
+            color: #FFAA2C;
+            margin-top: 30rpx;
+            text-decoration: underline;
+        }
     }
 }
 </style>
