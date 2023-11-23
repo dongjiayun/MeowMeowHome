@@ -5,6 +5,7 @@
         :class="{ isTopIndex }"
         :style="{ boxShadow: hideShadow ? 'none' : '0px -8px 16px 0px rgba(51,51,51,0.06)' }"
     >
+        <!-- #ifdef H5 -->
         <view
             v-for="(item,index) in leftTabs"
             :key="'tab-left-' + index"
@@ -26,6 +27,30 @@
                 </view>
             </uni-badge>
         </view>
+        <!-- #endif -->
+        <!-- #ifdef MP-WEIXIN -->
+        <view
+            v-for="(item,index) in leftTabs"
+            :key="index"
+            class="pa-tabbar-tabs"
+        >
+            <uni-badge
+                type="error"
+                absolute="rightTop"
+                :text="item.bind ? getBind(item.bind) : undefined"
+                :offset="[22,5]"
+                @click="handleClick(item)"
+            >
+                <view
+                    class="pa-tabbar-item"
+                    @click="handleClick(item)"
+                >
+                    <image class="pa-tabbar-item-icon" :src="setTabIcon(item)" />
+                    <view class="pa-tabbar-item-text" :class="{ active: $Router.checkCurrentRouteActive(item.path) }">{{ item.tabbarName }}</view>
+                </view>
+            </uni-badge>
+        </view>
+        <!-- #endif -->
         <view class="pa-tabbar-create" @click="handleCreate">
             <view class="pa-tabbar-create-button">
                 <view class="pa-tabbar-create-button-leftear" />
@@ -33,6 +58,7 @@
                 <uni-icons type="plusempty" size="22" color="#FF824C" />
             </view>
         </view>
+        <!-- #ifdef H5 -->
         <view
             v-for="(item,index) in rightTabs"
             :key="'tab-right-' + index"
@@ -54,6 +80,30 @@
                 </view>
             </uni-badge>
         </view>
+        <!-- #endif -->
+        <!-- #ifdef MP-WEIXIN -->
+        <view
+            v-for="(item,index) in rightTabs"
+            :key="index"
+            class="pa-tabbar-tabs"
+        >
+            <uni-badge
+                type="error"
+                absolute="rightTop"
+                :text="item.bind ? getBind(item.bind) : undefined"
+                :offset="[22,5]"
+                @click="handleClick(item)"
+            >
+                <view
+                    class="pa-tabbar-item"
+                    @click="handleClick(item)"
+                >
+                    <image class="pa-tabbar-item-icon" :src="setTabIcon(item)" />
+                    <view class="pa-tabbar-item-text" :class="{ active: $Router.checkCurrentRouteActive(item.path) }">{{ item.tabbarName }}</view>
+                </view>
+            </uni-badge>
+        </view>
+        <!-- #endif -->
     </view>
 </template>
 
