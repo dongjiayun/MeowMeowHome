@@ -133,9 +133,9 @@ export const login = (loginType, params) => {
     }
     return new Promise((resolve, reject) => {
         store.commit('SET_IS_LOGIN', true)
-        console.log(loginType)
         switch (loginType) {
             case 'wechat':
+                // #ifdef MP-WEIXIN
                 uni.login({
                     success({ code }) {
                         Toast.loading()
@@ -168,6 +168,20 @@ export const login = (loginType, params) => {
                         reject(e)
                     }
                 })
+                // #endif
+                // #ifdef H5
+                console.log('wechat')
+                window.mplogin2.doLogin({
+                    appid: 'wx496137512e6f2a77', // 必填，公众号appid，将以此appid名义进行请求
+                    scope: 'snsapi_userinfo', // 必填，登录方式：snsapi_userinfo、snsapi_base// 必填，登录方式：snsapi_userinfo、snsapi_base
+                    // noback: true,                              // 选填，登录完不直接返回业务页面，执行自定义附加操作
+                    redirect: 'https://club.meowmeowmeow.cn'
+                }).then(res => {
+                    // noback为true时，将不会返回业务页面，执行到这里
+                    // 此时需要自行控制跳转回业务页面
+                    console.log(res)
+                })
+                // #endif
                 break
             default :
                 Toast.loading()

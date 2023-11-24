@@ -15,17 +15,17 @@ const CONFIG = {
         // --------------dev------------------
         assetsPath: '/static', // 静态资源路径
         // baseUrl: 'https://o82q217872.zicp.fun', // 后台接口请求地址
-        baseUrl: 'http://localhost:2000',
+        baseUrl: 'https://www.meowmeowmeow.cn', // 后台接口请求地址
         obsBaseUrl: 'https://upload-z2.qiniup.com',
         obsBucket: 'qa-ipet-res',
         obsDomain: 'qa-res.ipetapi.com',
         env: 'dev',
     },
     qa: {
-        // --------------dev------------------
+        // --------------qa------------------
         assetsPath: '/static', // 静态资源路径
         // baseUrl: 'https://o82q217872.zicp.fun', // 后台接口请求地址
-        baseUrl: 'http://localhost:2000',
+        baseUrl: 'https://www.meowmeowmeow.cn', // 后台接口请求地址
         obsBaseUrl: 'https://upload-z2.qiniup.com',
         obsBucket: 'qa-ipet-res',
         obsDomain: 'qa-res.ipetapi.com',

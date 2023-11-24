@@ -104,6 +104,7 @@ import userCard from '@/components/business/userCard.vue'
 import pagination from '@/mixin/pagination'
 import { uniqBy } from 'lodash'
 import commentCard from '@/components/business/commentCard.vue'
+import { goToLogin } from '@/utils/auth'
 export default {
     components: { articleCard, userCard, commentCard },
     mixins: [pagination],
@@ -135,9 +136,15 @@ export default {
     methods: {
         getThumb,
         init() {
+            this.checkLogin()
             this.list = []
             this.getProfile()
             this.getData()
+        },
+        checkLogin() {
+            if (!this.token) {
+                goToLogin(true)
+            }
         },
         getProfile() {
             userModel.info(this.cid).then(res => {

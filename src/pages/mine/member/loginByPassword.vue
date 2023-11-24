@@ -23,10 +23,9 @@
                 <template v-else-if="loginType === 'wechat'">
                     <view class="pa-login-body-title">快来玩!</view>
                     <view style="margin-top: 40rpx">
-                        <button class="pa-mall-button" @click="handleLogin">一键登录</button>
+                        <button class="pa-mall-button" @click="handleLogin">微信一键登录</button>
                     </view>
                 </template>
-                <!-- #ifdef  MP-WEIXIN -->
                 <view class="pa-login-body-other">其他登录方式</view>
                 <view class="pa-login-body-buttons">
                     <view v-if="loginType !== 'emailWithPassword'" class="pa-login-body-buttons-button" @click="loginType = 'emailWithPassword'">
@@ -44,7 +43,6 @@
                         />
                     </view>
                 </view>
-                <!-- #endif -->
             </view>
         </view>
     </pa-container>

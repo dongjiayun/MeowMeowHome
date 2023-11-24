@@ -425,3 +425,16 @@ export const getRandomCover = () => {
     const index = round(random(0, 4))
     return `https://qa-res.ipetapi.com/meowmeowmeow/placeholders/${index}.png`
 }
+
+export const useSdk = src => {
+    return new Promise(resolve => {
+        const setScript = document.createElement('script')
+        const head = document.head || document.getElementsByTagName('head')[0]
+        setScript.src = src
+        setScript.type = 'text/javascript'
+        head.appendChild(setScript)
+        setScript.onload = () => {
+            resolve(true)
+        }
+    })
+}
