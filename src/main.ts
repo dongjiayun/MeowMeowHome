@@ -27,7 +27,7 @@ Vue.use(Filter)
 Vue.use(AsyncComputed)
 
 import VConsole from 'vconsole'
-if (process.env.VITE_APP_CURRENTMODE !== 'prod') {
+if (process.env.VUE_APP_CURRENTMODE !== 'prod') {
     const vConsole = new VConsole()
     // @ts-ignore
     Vue.use(vConsole)
