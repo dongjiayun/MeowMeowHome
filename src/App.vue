@@ -14,6 +14,9 @@ export default Vue.extend({
         this.$store.dispatch('getNoticeAmountInterval')
     },
     onShow() {
+        if (!(/Mobi|Android|iPhone/i.test(navigator.userAgent))) {
+            window.location.href = 'https://blog.meowmeowmeow.cn/blog-h5'
+        }
         setTimeout(() => {
             const params = this.$Router.getRouteQuery()
             if (params && params.gdt_vid) {
