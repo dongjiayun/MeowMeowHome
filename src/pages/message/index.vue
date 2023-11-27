@@ -156,6 +156,7 @@ export default {
             font-weight: 400;
             color: $pingan-color;
             text-align: center;
+            padding: 16rpx;
         }
     }
     &-body{
