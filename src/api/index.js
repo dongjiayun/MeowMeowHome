@@ -128,3 +128,21 @@ export const commentModel = {
         return http.post('/comment/get/like', data)
     }
 }
+
+export const messageModel = {
+    list(data) {
+        return http.post('/message', data)
+    },
+    create(data) {
+        return http.post('/message/create', data)
+    },
+    delete(messageId) {
+        return http.delete(`/message/${messageId}`)
+    },
+    like(messageId) {
+        return http.post(`/message/like/${messageId}`)
+    },
+    unLike(messageId) {
+        return http.delete(`/message/like/${messageId}`)
+    }
+}

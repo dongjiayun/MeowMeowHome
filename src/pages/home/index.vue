@@ -7,6 +7,10 @@
     >
         <view class="pa-home-page">
             <pa-status-bar />
+            <view class="pa-home-page-header">
+                <image class="pa-home-page-header-logo" :src="require('@/static/base/logo.jpg')" />
+                <view class="pa-home-page-header-title">喵喵喵</view>
+            </view>
             <view class="pa-home-page-body">
                 <pa-water-fall :data="list">
                     <template #default="{ item }">
@@ -99,8 +103,15 @@ export default {
         align-items: center;
         justify-content: center;
         &-logo{
-            width: 166rpx;
-            height: 64rpx
+            width: 64rpx;
+            height: 64rpx;
+            border-radius: 64rpx;
+            margin-right: 20rpx;
+        }
+        &-title{
+            font-size: 36rpx;
+            font-family: meow;
+            color: #FFAA2C;
         }
     }
     &-body{

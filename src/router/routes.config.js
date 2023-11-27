@@ -15,14 +15,12 @@ const base = [
 
 const mall = [
     {
-        path: 'pages/index/index',
-        name: 'mall',
-        tabbarName: '购物',
+        path: 'pages/message/index',
+        name: 'message',
+        tabbarName: '留言板',
         isTabbar: true,
         tabActiveIcon: require('static/tabbar/cart_active.png'),
         tabInactiveIcon: require('static/tabbar/cart.png'),
-        openMiniprogram: true,
-        appId: 'wx284a972db321f04f'
     }
 ]
 
@@ -126,6 +124,13 @@ const comment = [
     }
 ]
 
+const message = [
+    {
+        path: 'pages/message/index',
+        name: 'message'
+    }
+]
+
 const routes = [
     ...base,
     ...mall,
@@ -134,7 +139,8 @@ const routes = [
     ...article,
     ...common,
     ...user,
-    ...comment
+    ...comment,
+    ...message
 ]
 
 export default routes
