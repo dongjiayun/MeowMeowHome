@@ -14,9 +14,22 @@ export default Vue.extend({
         this.$store.dispatch('getNoticeAmountInterval')
     },
     onShow() {
-        if (!(/Mobi|Android|iPhone/i.test(navigator.userAgent))) {
-            window.location.href = 'https://blog.meowmeowmeow.cn/blog-h5'
+        const handleResize = () => {
+            if (window.self !== window.top) {
+                return
+            }
+            const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
+            if (width >= 768) {
+                window.location.href = 'https://blog.meowmeowmeow.cn/blog-h5'
+            }
         }
+
+        handleResize()
+
+        window.addEventListener('resize', () => {
+            handleResize()
+            location.reload()
+        })
         setTimeout(() => {
             const params = this.$Router.getRouteQuery()
             if (params && params.gdt_vid) {
