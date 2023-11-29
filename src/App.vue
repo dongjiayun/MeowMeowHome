@@ -14,6 +14,7 @@ export default Vue.extend({
         this.$store.dispatch('getNoticeAmountInterval')
     },
     onShow() {
+        const windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
         const handleResize = () => {
             if (window.self !== window.top) {
                 return
@@ -28,7 +29,10 @@ export default Vue.extend({
 
         window.addEventListener('resize', () => {
             handleResize()
-            location.reload()
+            const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
+            if (windowWidth !== width) {
+                location.reload()
+            }
         })
         setTimeout(() => {
             const params = this.$Router.getRouteQuery()
