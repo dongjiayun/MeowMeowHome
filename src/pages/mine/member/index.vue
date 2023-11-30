@@ -117,7 +117,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['cid']),
+        ...mapGetters(['token', 'cid']),
         avatar() {
             return this.profileData.avatar?.fileUrl || getRandomCover()
         }
