@@ -4,8 +4,8 @@ const CONFIG = {
     local: {
         // --------------dev------------------
         assetsPath: '/static', // 静态资源路径
-        baseUrl: 'https://o82q217872.zicp.fun', // 后台接口请求地址
-        // baseUrl: 'https://www.meowmeowmeow.cn',
+        // baseUrl: 'https://o82q217872.zicp.fun', // 后台接口请求地址
+        baseUrl: 'https://www.meowmeowmeow.cn',
         obsBaseUrl: 'https://upload-z2.qiniup.com',
         obsBucket: 'qa-ipet-res',
         obsDomain: 'qa-res.ipetapi.com',

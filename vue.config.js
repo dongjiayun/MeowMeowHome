@@ -31,6 +31,15 @@ module.exports = {
     // 配置相关loader，支持修改，添加和替换相关的loader
         config.resolve.alias.set('@', resolve('src'))
         config.resolve.alias.set('@root', resolve('./'))
+        config.module
+            .rule('markdown')
+            .test(/\.md$/)
+            .use('html-loader')
+            .loader('html-loader')
+            .end()
+            .use('markdown-loader')
+            .loader('markdown-loader')
+            .end()
         config
             .plugin('define')
             .tap(([def]) => [{

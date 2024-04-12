@@ -30,7 +30,12 @@
                         </view>
                     </view>
                     <view class="pa-article-detail-body-main-content">
+                        <markdown
+                            v-if="data.isMarkdown"
+                            :content="data.content"
+                        />
                         <mp-html
+                            v-else
                             ref="article"
                             :content="data.content"
                         />
@@ -103,11 +108,13 @@ import { articleModel, userModel } from '@/api'
 import dayjs from 'dayjs'
 import { mapGetters } from 'vuex'
 import mpHtml from '@/components/mp-html/mp-html.vue'
+import markdown from '@/components/markdown.vue'
 
 export default {
     components: {
         mpHtml,
-        banner
+        banner,
+        markdown
     },
     data() {
         return {
@@ -383,6 +390,9 @@ export default {
             })
         },
         handleEdit() {
+            if (this.data.isMarkdown) {
+                return this.$toast({ title: '文章为 Markdown 格式,请移步至桌面端编辑~' })
+            }
             this.$Router.push({
                 name: 'articleEditor',
                 query: {

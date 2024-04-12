@@ -5,3 +5,12 @@
 @import "./uni-icons";
 @import "./animation";
 @import "./font";
+@import "github-markdown-css/github-markdown-light.css";
+
+.markdown-body{
+    padding: 20px;
+    img{
+        width: 100px;
+        height: 100px;
+    }
+}
