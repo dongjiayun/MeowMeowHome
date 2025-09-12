@@ -5,7 +5,7 @@ const CONFIG = {
         // --------------dev------------------
         assetsPath: '/static', // 静态资源路径
         // baseUrl: 'https://o82q217872.zicp.fun', // 后台接口请求地址
-        baseUrl: 'https://www.meowmeowmeow.cn',
+        baseUrl: 'http://api.djydjydjy.top',
         obsBaseUrl: 'https://upload-z2.qiniup.com',
         obsBucket: 'qa-ipet-res',
         obsDomain: 'qa-res.ipetapi.com',
@@ -15,7 +15,7 @@ const CONFIG = {
         // --------------dev------------------
         assetsPath: '/static', // 静态资源路径
         // baseUrl: 'https://o82q217872.zicp.fun', // 后台接口请求地址
-        baseUrl: 'https://www.meowmeowmeow.cn', // 后台接口请求地址
+        baseUrl: 'http://api.djydjydjy.top', // 后台接口请求地址
         obsBaseUrl: 'https://upload-z2.qiniup.com',
         obsBucket: 'qa-ipet-res',
         obsDomain: 'qa-res.ipetapi.com',
@@ -25,7 +25,7 @@ const CONFIG = {
         // --------------qa------------------
         assetsPath: '/static', // 静态资源路径
         // baseUrl: 'https://o82q217872.zicp.fun', // 后台接口请求地址
-        baseUrl: 'https://www.meowmeowmeow.cn', // 后台接口请求地址
+        baseUrl: 'http://api.djydjydjy.top', // 后台接口请求地址
         obsBaseUrl: 'https://upload-z2.qiniup.com',
         obsBucket: 'qa-ipet-res',
         obsDomain: 'qa-res.ipetapi.com',
@@ -34,7 +34,7 @@ const CONFIG = {
     // 生产环境配置
     prod: {
         assetsPath: '/static', // 静态资源路径
-        baseUrl: 'https://www.meowmeowmeow.cn', // 后台接口请求地址
+        baseUrl: 'http://api.djydjydjy.top', // 后台接口请求地址
         obsBaseUrl: 'https://upload-z2.qiniup.com',
         obsBucket: 'qa-ipet-res',
         obsDomain: 'qa-res.ipetapi.com',
@@ -51,7 +51,7 @@ const CONFIG = {
         // --------------prod------------------
         assetsPath: '/static', // 静态资源路径
         baseUrl: 'https://o82q217872.zicp.fun', // 后台接口请求地址
-        // baseUrl: 'https://www.meowmeowmeow.cn',
+        // baseUrl: 'http://api.djydjydjy.top',
         obsBaseUrl: 'https://upload-z2.qiniup.com',
         obsBucket: 'qa-ipet-res',
         obsDomain: 'qa-res.ipetapi.com',
@@ -61,7 +61,7 @@ const CONFIG = {
     production: {
         // --------------prod------------------
         assetsPath: '/static', // 静态资源路径
-        baseUrl: 'https://www.meowmeowmeow.cn', // 后台接口请求地址
+        baseUrl: 'http://api.djydjydjy.top', // 后台接口请求地址
         obsBaseUrl: 'https://upload-z2.qiniup.com',
         obsBucket: 'qa-ipet-res',
         obsDomain: 'qa-res.ipetapi.com',

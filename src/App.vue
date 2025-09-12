@@ -21,7 +21,7 @@ export default Vue.extend({
             }
             const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
             if (width >= 768) {
-                window.location.href = 'https://blog.meowmeowmeow.cn/blog-h5'
+                window.location.href = 'https://blog.djydjydjy.top/blog-h5'
             }
         }
 

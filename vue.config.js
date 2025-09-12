@@ -9,7 +9,7 @@ module.exports = {
         // proxy: {
         //     // 后台接口代理
         //     '/api': {
-        //         target: 'https://www.meowmeowmeow.cn/',
+        //         target: 'http://api.djydjydjy.top/',
         //         changeOrigin: true,
         //         pathRewrite: {
         //             '^/api': ''
