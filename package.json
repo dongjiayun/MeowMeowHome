@@ -73,6 +73,7 @@
         "@fingerprintjs/fingerprintjs": "^3.3.0",
         "@vue/shared": "^3.0.0",
         "core-js": "^3.6.5",
+        "crypto-js": "^4.2.0",
         "dayjs": "^1.10.7",
         "flyio": "^0.6.2",
         "github-markdown-css": "^5.5.1",

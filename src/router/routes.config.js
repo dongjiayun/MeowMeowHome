@@ -131,6 +131,13 @@ const message = [
     }
 ]
 
+const resumes = [
+    {
+        path: 'pages/resumes/index',
+        name: 'resumes'
+    }
+]
+
 const routes = [
     ...base,
     ...mall,
@@ -140,7 +147,8 @@ const routes = [
     ...common,
     ...user,
     ...comment,
-    ...message
+    ...message,
+    ...resumes
 ]
 
 export default routes

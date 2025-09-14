@@ -152,3 +152,9 @@ export const UploadModel = {
         return http.upload('/common/uploadPic', data)
     },
 }
+
+export const resumeModel = {
+    list(data) {
+        return http.post('/resume/get', data)
+    },
+}
