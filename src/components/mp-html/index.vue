@@ -236,6 +236,7 @@ export default {
                     module: 'meowmeowmeow',
                 }))
             })
+            console.log('loads', loads)
             await Promise.all(loads).then(res => {
                 files = res.map(i => i.filePath)
             })

@@ -2,7 +2,7 @@
     <view
         class="pa-loading"
         :style="{
-            background: `url(https://res.ipetapi.com/miniprogram/mall/loading.png) no-repeat  ${left}rpx ${top}rpx/  ${backgroundImageWidth}rpx auto `,
+            background: `url(${require('@/static/base/loading.png')}) no-repeat  ${left}rpx ${top}rpx/  ${backgroundImageWidth}rpx auto `,
             width: size + 'rpx',
             height: size + 'rpx'
         }"

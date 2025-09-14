@@ -171,7 +171,11 @@ export const dialog = ({ title, content, showCancel, cancelText, cancelColor, co
  * 去除对象空元素
  */
 export const objectTreeShake = obj => {
-    return Object.fromEntries(Object.entries(obj).filter(([key, value]) => !isNullOrEmpty(value)))
+    if (obj) {
+        return Object.fromEntries(Object.entries(obj).filter(([key, value]) => !isNullOrEmpty(value)))
+    } else {
+        return {}
+    }
 }
 
 /**

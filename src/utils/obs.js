@@ -7,16 +7,19 @@ import indexConfig from '@/config'
 export function upload({ data }) {
     const file = data
     Toast.showLoading('正在上传')
-    UploadModel.uploadPic({
-        file: file,
-    }).then(res => {
-        Toast.hideLoading()
-        if (res.status !== 0) {
-            Toast.info({ title: res.message })
-        } else {
-            Toast.info({ title: '上传成功' })
-            return { filePath: indexConfig.baseUrl + res.data }
-        }
+    return new Promise(resolve => {
+        UploadModel.uploadPic({
+            file,
+        }).then(res => {
+            if (res.status !== 0) {
+                Toast.info({ title: res.message })
+            } else {
+                Toast.info({ title: '上传成功' })
+                resolve({ filePath: indexConfig.baseUrl + res.data })
+            }
+        }).finally(() => {
+            Toast.hideLoading()
+        })
     })
 }
 

@@ -131,6 +131,7 @@ export default {
                 }))
             })
             await Promise.all(loads).then(res => {
+                console.log('res', res)
                 files = res.map(i => i.filePath)
             })
             this.$emit('choose', files)

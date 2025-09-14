@@ -9,6 +9,8 @@
  */
 
 import { checkMobile } from '@/utils/auth'
+import store from '@/store'
+import indexConfig from '@/config'
 
 export default class Request {
     config = {
@@ -282,91 +284,36 @@ export default class Request {
 
     upload(
         url,
-        {
-            // #ifdef APP-PLUS
-            files,
-            // #endif
-            // #ifdef MP-ALIPAY
-            fileType,
-            // #endif
-            filePath,
-            name,
-            header,
-            formData = {},
-            custom = {},
-            params = {},
-            getTask
-        }
+        data
     ) {
+        const token = store.state.user.token
+        const refreshToken = store.state.user.refreshToken
+        const config = { header: {}}
+        if (token) {
+            config.header['Authorization'] = token
+        } else {
+            config.header['Authorization'] = ''
+        }
+        if (refreshToken) {
+            config.header['Refresh-Token'] = refreshToken
+        } else {
+            config.header['Refresh-Token'] = ''
+        }
         return new Promise((resolve, reject) => {
-            let next = true
-            const globalHeader = { ...this.config.header }
-            delete globalHeader['content-type']
-            delete globalHeader['Content-Type']
-            const pubConfig = {
-                baseUrl: this.config.baseUrl,
-                url,
-                // #ifdef MP-ALIPAY
-                fileType,
-                // #endif
-                filePath,
-                method: 'UPLOAD',
-                name,
-                header: header || globalHeader,
-                formData,
-                params,
-                custom: { ...this.config.custom, ...custom },
-                getTask: getTask || this.config.getTask
-            }
-            // #ifdef APP-PLUS
-            if (files) {
-                pubConfig.files = files
-            }
-            // #endif
-            const cancel = (t = 'handle cancel', config = pubConfig) => {
-                const err = {
-                    errMsg: t,
-                    config: config
-                }
-                reject(err)
-                next = false
-            }
-
-            const handleRe = { ...this.requestBeforeFun(pubConfig, cancel) }
-            const _config = {
-                url: Request.mergeUrl(handleRe.url, handleRe.baseUrl, handleRe.params),
-                // #ifdef MP-ALIPAY
-                fileType: handleRe.fileType,
-                // #endif
-                filePath: handleRe.filePath,
-                name: handleRe.name,
-                header: handleRe.header,
-                formData: handleRe.formData,
-                complete: response => {
-                    response.config = handleRe
-                    if (typeof response.data === 'string') {
-                        response.data = JSON.parse(response.data)
-                    }
-                    if (this.validateStatus(response.statusCode)) {
-                        // 成功
-                        response = this.requestComFun(response)
-                        resolve(response)
-                    } else {
-                        response = this.requestComFail(response)
-                        reject(response)
-                    }
-                }
-            }
-            // #ifdef APP-PLUS
-            if (handleRe.files) {
-                _config.files = handleRe.files
-            }
-            // #endif
-            if (!next) return
-            const requestTask = uni.uploadFile(_config)
-            if (handleRe.getTask) {
-                handleRe.getTask(requestTask, handleRe)
-            }
+            uni.uploadFile({
+                url: (process.env.NODE_ENV === 'development' ? '/api' : indexConfig.baseUrl/* 根域名不同 */) + url,
+                method: 'post',
+                filePath: data.file.path,
+                name: 'file',
+                header: config.header,
+                success: (res) => {
+                    res = JSON.parse(res.data)
+                    resolve(res)
+                },
+                fail: (err) => {
+                    resolve(err)
+                },
+            })
         })
     }
 

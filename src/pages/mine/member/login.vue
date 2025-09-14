@@ -209,7 +209,7 @@ export default {
 
 <style lang="scss" scoped>
     .pa-login{
-        background: url(static/base/home_bg.jpeg) no-repeat center/cover;
+        background: url(@/static/base/home_bg.jpeg) no-repeat center/cover;
         height: 100vh;
         &-header{
             z-index: 10;
