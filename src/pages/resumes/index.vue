@@ -96,7 +96,7 @@ export default Vue.extend({
         background: #fff;
     }
     &-main{
-        margin-bottom: 120rpx;
+        margin-bottom: 160rpx;
         .alert{
             display: flex;
             align-items: center;
