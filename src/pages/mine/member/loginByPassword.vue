@@ -142,7 +142,7 @@ export default {
 <style scoped lang="scss">
 .pa-login{
     height: 100vh;
-    background: url("https://qa-res.ipetapi.com/meowmeowmeow/cat1.gif") no-repeat bottom/cover;
+    background: url(static/base/home_bg.jpeg) no-repeat bottom/cover;
     &-header{
         z-index: 10;
         position: sticky;

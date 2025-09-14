@@ -1,40 +1,58 @@
 import { Toast, uuid } from '@/utils'
 import store from '@/store'
 import appConfig from '@/config'
+import { UploadModel } from '@/api'
+import indexConfig from '@/config'
 
-export function upload({ data, module, formatFileNameByUuid = true, customFileName }) {
+export function upload({ data }) {
     const file = data
-    const fileName = file?.name || file.path
-    let key
-    if (customFileName) {
-        key = `${module}/${customFileName}`
-    } else if (formatFileNameByUuid) {
-        let fileType = fileName.split('.')
-        fileType = fileType[fileType.length - 1]
-        const _fileName = uuid() + `.${fileType}`
-        key = `${module}/${_fileName}`
-    } else {
-        key = `${module}/${fileName}`
-    }
-    const obsInfo = store.state.app.obsInfo
-    const { token } = obsInfo
-    const cdnDomain = appConfig.obsDomain
     Toast.showLoading('正在上传')
-    return qiniuUpload(file, key, token).then(res => {
-        Toast.hide()
-        const filePath = `https://${cdnDomain}/${key}`
-        Toast.info({ title: '上传成功' })
-        console.log(filePath)
-        return ({ filePath, data })
-    }).catch(err => {
-        if (err.code === 614) {
-            Toast.info({ title: '文件已存在,请登录obs后台,删除同名文件后再上传' })
+    UploadModel.uploadPic({
+        file: file,
+    }).then(res => {
+        Toast.hideLoading()
+        if (res.status !== 0) {
+            Toast.info({ title: res.message })
         } else {
-            Toast.info({ title: '上传失败,请重试' })
+            Toast.info({ title: '上传成功' })
+            return { filePath: indexConfig.baseUrl + res.data }
         }
-        Toast.hide()
     })
 }
+
+// export function upload({ data, module, formatFileNameByUuid = true, customFileName }) {
+//     const file = data
+//     const fileName = file?.name || file.path
+//     let key
+//     if (customFileName) {
+//         key = `${module}/${customFileName}`
+//     } else if (formatFileNameByUuid) {
+//         let fileType = fileName.split('.')
+//         fileType = fileType[fileType.length - 1]
+//         const _fileName = uuid() + `.${fileType}`
+//         key = `${module}/${_fileName}`
+//     } else {
+//         key = `${module}/${fileName}`
+//     }
+//     const obsInfo = store.state.app.obsInfo
+//     const { token } = obsInfo
+//     const cdnDomain = appConfig.obsDomain
+//     Toast.showLoading('正在上传')
+//     return qiniuUpload(file, key, token).then(res => {
+//         Toast.hide()
+//         const filePath = `https://${cdnDomain}/${key}`
+//         Toast.info({ title: '上传成功' })
+//         console.log(filePath)
+//         return ({ filePath, data })
+//     }).catch(err => {
+//         if (err.code === 614) {
+//             Toast.info({ title: '文件已存在,请登录obs后台,删除同名文件后再上传' })
+//         } else {
+//             Toast.info({ title: '上传失败,请重试' })
+//         }
+//         Toast.hide()
+//     })
+// }
 
 export function getThumb(url, quality = 20) {
     if (url) {

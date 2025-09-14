@@ -146,3 +146,9 @@ export const messageModel = {
         return http.delete(`/message/like/${messageId}`)
     }
 }
+
+export const UploadModel = {
+    uploadPic(data) {
+        return http.upload('/common/uploadPic', data)
+    },
+}
