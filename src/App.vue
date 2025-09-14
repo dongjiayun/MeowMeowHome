@@ -21,7 +21,15 @@ export default Vue.extend({
             }
             const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
             if (width >= 768) {
-                window.location.href = 'https://blog.djydjydjy.top/blog-h5'
+                const url = window.location.href
+                if (url.includes('resumes')) {
+                    const urlParams = new URLSearchParams(window.location.search)
+                    const password = urlParams.get('password') || ''
+                    const lang = urlParams.get('lang') || ''
+                    window.location.href = `https://blog.djydjydjy.top/resume?password=${password}&lang=${lang}`
+                } else {
+                    window.location.href = 'https://blog.djydjydjy.top/blog-h5'
+                }
             }
         }
 
